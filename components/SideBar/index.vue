@@ -16,48 +16,6 @@
         </el-input>
       </div>
     </div>
-    <div class="sidebar">
-      <div class="sidebar-header">
-        <h4 class="sidebar-title">
-          网站公告
-        </h4>
-        <nuxt-link to="/">
-          更多
-        </nuxt-link>
-      </div>
-      <div class="sidebar-content">
-        <div class="notice">
-          <ul>
-            <!-- <li>
-              <time>{{ notice.created_time }}</time>
-              <span>{{ notice.text }}</span>
-            </li> -->
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="sidebar">
-      <div class="sidebar-header">
-        <h4 class="sidebar-title">
-          最近发表
-        </h4>
-      </div>
-      <div class="sidebar-content">
-        <ul class="recent-list">
-          <!-- <li v-for="(article, index) in articles" :key="index" class="item">
-            <nuxt-link
-              :to="{
-                name: 'detail',
-                params: { id: article._id, title: article.title }
-              }"
-            >
-              {{ article.title }}
-            </nuxt-link>
-          </li> -->
-        </ul>
-      </div>
-    </div>
 
     <div class="sidebar">
       <div class="sidebar-header">
@@ -67,7 +25,7 @@
       </div>
       <div class="sidebar-content">
         <ul class="recent-comment">
-          <!-- <li v-for="(comment, index) in comments" :key="index" class="item">
+          <li v-for="(comment, index) in comments" :key="index" class="item">
             <a href="#" :title="comment.title">
               <img
                 class="avatar"
@@ -75,7 +33,7 @@
                 :alt="comment.username"
                 width="50"
                 height="50"
-              >
+              />
             </a>
             <div class="con">
               <a href="#" :title="comment.title">
@@ -86,7 +44,7 @@
                 {{ comment.created_time | dateFormat }}
               </p>
             </div>
-          </li> -->
+          </li>
         </ul>
       </div>
     </div>
@@ -102,17 +60,17 @@
       </div>
       <div class="sidebar-content">
         <ul class="sidebar-tags">
-          <!-- <li v-for="tag in tags" :key="tag._id" class="tag">
+          <li v-for="tag in tags" :key="tag._id" class="tag">
             <nuxt-link
               :to="{
                 name: 'tag',
                 params: { id: tag._id },
-                query: { title: tag.title }
+                query: { title: tag.title },
               }"
             >
               {{ tag.title }}
             </nuxt-link>
-          </li> -->
+          </li>
         </ul>
       </div>
     </div>
@@ -136,18 +94,17 @@
 </template>
 
 <script>
-// import { mapState } from 'vuex'
+import { mapState } from 'vuex'
 export default {
   name: 'Sidebar',
   data() {
     return {
-      notice: {},
-      articles: [],
       keywords: '',
     }
   },
   computed: {
-    // ...mapGetters(['tags', 'comments', 'blogInfo'])
+    ...mapState('tag', ['tags']),
+    ...mapState('comment', ['comments']),
     // ...mapState({
     //   sidebar: state => ({
     //     notice: state.info.notice,

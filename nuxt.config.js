@@ -29,21 +29,46 @@ export default {
         content: process.env.npm_package_description || '',
       },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      // {
+      //   rel: 'stylesheet',
+      //   href: '//at.alicdn.com/t/font_656382_tsyi759rqy.css',
+      // },
+    ],
   },
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#fff' },
+  loading: { color: '#0088f5' },
+  /*
+   ** router change scroll to top
+   */
+  router: {
+    scrollBehavior(to, from, savedPosition) {
+      return { x: 0, y: 0 }
+    },
+  },
   /*
    ** Global CSS
    */
-  css: ['element-ui/lib/theme-chalk/index.css'],
+  css: [
+    'element-ui/lib/theme-chalk/index.css',
+    'swiper/css/swiper.css',
+    'highlight.js/styles/ocean.css',
+    '@/assets/scss/reset.scss',
+  ],
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
-  plugins: ['@/plugins/element-ui'],
+  plugins: [
+    { src: '@/plugins/element-ui', ssr: true },
+    { src: '@/plugins/swiper-plugin', ssr: true },
+    { src: '@/plugins/filters', ssr: true },
+    { src: '@/plugins/marked' },
+    { src: '@/plugins/highlight' },
+  ],
   /*
    ** Auto import components
    ** See https://nuxtjs.org/api/configuration-components
@@ -79,6 +104,10 @@ export default {
       // pathRewrite: {
       //   '^/api/': '/'
       // }
+    },
+    '/uploads': {
+      target: 'http://www.zhangwurui.net', // 网站请求数据
+      changeOrigin: true,
     },
   },
   /*

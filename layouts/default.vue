@@ -25,14 +25,6 @@ export default {
     AppFooter,
     AppSidebar,
   },
-  //   computed: {
-  //     ...mapState(['menuStatus'])
-  //   },
-  //   methods: {
-  //     _closeMenu () {
-  //       this.$store.commit('UPDATE_MENU_STATUS', false)
-  //     }
-  //   }
 }
 </script>
 

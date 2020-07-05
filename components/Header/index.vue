@@ -68,7 +68,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['menu']),
+    ...mapState('category', ['menu']),
   },
   mounted() {
     let oldTop = 0

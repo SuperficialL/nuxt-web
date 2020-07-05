@@ -1,16 +1,25 @@
+/*
+ * @Author: SuperficialL
+ * @Date: 2020-07-03 01:09:26
+ * @LastEditTime: 2020-07-06 00:47:45
+ * @Description: 文章数据
+ */
 import * as types from './mutations-types'
 
-export const state = () => ({
-  articles: [],
-  total: 0,
-  page: 1,
-  detail: {},
-  viewCount: 0,
-})
+export const state = () => {
+  return {
+    articles: [],
+    total: 0,
+    page: 1,
+    per_page: 10,
+    detail: {},
+    viewCount: 0,
+  }
+}
 
 export const mutations = {
   [types.UPDATE_ARTICLE_LIST](state, data) {
-    state.articleList = data
+    state.articles = data
   },
 
   [types.SET_ARTICLE_DETAIL](state, data) {
@@ -42,29 +51,49 @@ export const mutations = {
 
 export const actions = {
   // 获取文章列表
-  async getArticleList({ commit }, params) {
-    try {
-      const {
-        result: { data, pagination },
-      } = await this.$axios.$get('/api/articles', {
-        params,
-        data: { progress: false },
+  getArticleList({ commit }, params = { page: 1 }) {
+    return this.$axios
+      .$get('/api/articles', { params })
+      .then((res) => {
+        const { data, pagination } = res.result
+        commit(types.UPDATE_ARTICLE_LIST, data)
+        commit(types.SET_TOTAL, pagination.total)
+        commit(types.SET_PAGE, pagination.page)
       })
-
-      commit(types.UPDATE_ARTICLE_LIST, data)
-      commit(types.SET_TOTAL, pagination.total)
-      return Promise.resolve()
-    } catch (error) {
-      return Promise.reject(error)
-    }
+      .catch((err) => {
+        return Promise.reject(err)
+      })
+    // try {
+    //   const {
+    //     result: { data, pagination },
+    //   } = await this.$axios.$get('/api/articles', {
+    //     params,
+    //     data: { progress: false },
+    //   })
+    //   commit(types.UPDATE_ARTICLE_LIST, data)
+    //   commit(types.SET_TOTAL, pagination.total)
+    //   commit(types.SET_PAGE, pagination.page)
+    //   return Promise.resolve()
+    // } catch (error) {
+    //   return Promise.reject(error)
+    // }
   },
 
   // 获取文章详情
-  async getArticleDetail({ commit, rootState }, id) {},
+  getArticleDetail({ commit }, params = {}) {
+    return this.$axios
+      .$get(`/api/articles/${params.id}`)
+      .then((res) => {
+        commit(types.SET_ARTICLE_DETAIL, res.result)
+      })
+      .catch((err) => {
+        return Promise.reject(err)
+      })
+  },
 
   // 更新阅读量
-  async updateArticleViewCount({ commit }, requestData) {},
+  updateArticleViewCount({ commit }, requestData) {},
 
   // 发表意见
-  async updateOpinion({ commit }, requestData) {},
+  updateOpinion({ commit }, requestData) {},
 }

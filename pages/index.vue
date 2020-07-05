@@ -1,20 +1,25 @@
 <template>
   <div class="container">
     <section class="carousel">
-      <ul>
-        <li v-for="carousel in carousels" :key="carousel._id">
-          <img :src="carousel.url" />
-          <p>{{ carousel.title }}</p>
-        </li>
-      </ul>
+      <client-only>
+        <swiper :options="swiperOption">
+          <swiper-slide v-for="(item, index) in carousels" :key="index">
+            <img :src="item.path" />
+          </swiper-slide>
+          <div slot="pagination" class="swiper-pagination"></div>
+        </swiper>
+      </client-only>
     </section>
     <section class="article-wrapper">
-      <article v-for="article in articles" :key="article._id" class="article">
+      <ul class="tabs">
+        <li class="active">最新文章</li>
+      </ul>
+      <article v-for="article in articles" :key="article.id" class="article">
         <nuxt-link
           class="article-thumbnail"
           :to="{
-            name: 'detail',
-            params: { id: article._id, title: article.title },
+            name: 'article-id',
+            params: { id: article.id, title: article.title },
           }"
         >
           <img
@@ -28,8 +33,8 @@
             <span class="classify">{{ article.category.name }}</span>
             <nuxt-link
               :to="{
-                name: 'detail',
-                params: { id: article._id, title: article.title },
+                name: 'article-id',
+                params: { id: article.id, title: article.title },
               }"
               >{{ article.title }}</nuxt-link
             >
@@ -39,7 +44,7 @@
             <div class="article-meta">
               <span>
                 <i class="iconfont icon-msnui-time-detail" />
-                {{ article.created_time }}
+                {{ article.created_time | dateFormat }}
               </span>
               <span>
                 <i class="iconfont icon-eye" />
@@ -57,8 +62,8 @@
             <nuxt-link
               class="detail-btn"
               :to="{
-                name: 'detail',
-                params: { id: article._id, title: article.title },
+                name: 'article-id',
+                params: { id: article.id, title: article.title },
               }"
             >
               阅读全文
@@ -73,7 +78,6 @@
         :current-page="page"
         layout="prev, pager, next, jumper"
         :total="total"
-        @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />
     </section>
@@ -86,34 +90,42 @@ import { mapState } from 'vuex'
 export default {
   name: 'Index',
   fetch({ store, params }) {
-    return store.dispatch('article/getArticleList', {
-      page: 1,
-      per_page: 8,
-    })
+    return store.dispatch('article/getArticleList')
   },
   data() {
     return {
-      carousels: [],
+      carousels: [
+        { path: '/images/1.jpg' },
+        { path: '/images/2.jpg' },
+        { path: '/images/3.jpg' },
+      ],
+      swiperOption: {
+        autoplay: true,
+        loop: true,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+      },
     }
   },
   computed: {
     ...mapState('article', ['articles', 'total', 'page', 'per_page']),
   },
   methods: {
-    handleSizeChange(val) {
-      this.query.per_page = val
-    },
-
     handleCurrentChange(val) {
-      this.query.page = val
+      const params = {
+        page: val,
+      }
+      this.$store.dispatch('article/getArticleList', params)
     },
   },
   head() {
     return {
-      title: 'sss',
+      title: '首页',
       meta: [
-        { name: 'keywords', content: 'ss' },
-        { name: 'description', content: 'sss' },
+        { name: 'keywords', content: 'vuejs,nuxtjs,javascript,nodejs' },
+        { name: 'description', content: '前端博客' },
       ],
     }
   },
@@ -121,18 +133,40 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// .wrap {
-//   width: 1200px;
-//   display: flex;
-//   justify-content: space-between;
-//   margin: 20px auto;
-// }
+.carousel {
+  overflow: hidden;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
 .article-wrapper {
-  padding: 15px;
+  padding: 8px 15px;
   background-color: #fff;
   border-radius: 6px;
   overflow: hidden;
-
+  .tabs {
+    display: flex;
+    align-items: center;
+    height: 30px;
+    border-bottom: 1px solid #e9eaed;
+    font-size: 16px;
+    li {
+      position: relative;
+      display: flex;
+      align-items: center;
+      &.active {
+        color: #08c;
+      }
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -7px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: #08c;
+      }
+    }
+  }
   .article {
     position: relative;
     display: flex;

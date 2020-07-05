@@ -7,7 +7,7 @@
           <div class="article-meta">
             <span v-if="article.created_time">
               <i class="iconfont icon-msnui-time-detail" />
-              {{ article.created_time }}
+              {{ article.created_time | dateFormat }}
             </span>
             <span>
               <i class="iconfont icon-eye" />
@@ -22,9 +22,8 @@
               {{ article.likes }}
             </span>
           </div>
-          // eslint-disable-next-line vue/no-v-html
-          <div class="article-detail" />
-          <!-- <div class="article-detail" v-html="article.renderContent" /> -->
+          <!-- eslint-disable-next-line vue/no-v-html -->
+          <div class="article-content" v-html="articleContent" />
         </article>
       </section>
 
@@ -39,125 +38,29 @@
         <div class="next">后一篇:{{ article.next }}</div>
       </section>
 
-      <section class="comment-wrap">
-        <h4 class="comment-title">
-          共 {{ article.comments }} 条评论关于 “{{ article.title }}”
-        </h4>
-        <div class="comment-form">
-          <div class="comment-form-content">
-            <textarea
-              id="content"
-              v-model="content.value"
-              cols="100"
-              rows="5"
-              placeholder="请填写正确QQ邮箱，以便于更好的与您取得联系，否则您的留言可能会被删除!"
-              @blur="checkContent"
-            />
-            <span v-show="content.validate" class="comment-tips">{{
-              content.message
-            }}</span>
-          </div>
-          <div class="comment-info">
-            <div class="comment-input comment-form-username">
-              <label for="username" />
-              <input
-                id="username"
-                v-model="username.value"
-                type="text"
-                placeholder="昵称*"
-                @blur="checkAuthor"
-              />
-              <span v-show="username.validate" class="comment-tips">{{
-                username.message
-              }}</span>
-            </div>
-            <div class="comment-input comment-form-email">
-              <label for="email" />
-              <input
-                id="email"
-                v-model="email.value"
-                type="email"
-                placeholder="邮箱*"
-                @blur="checkEmail"
-              />
-              <span v-show="email.validate" class="comment-tips">{{
-                email.message
-              }}</span>
-            </div>
-            <div class="comment-input comment-form-site">
-              <label for="site" />
-              <input
-                id="site"
-                v-model="site.value"
-                type="url"
-                placeholder="站点"
-              />
-            </div>
-          </div>
-          <div class="comment-btn">
-            <input
-              class="submit-btn"
-              value="发表评论"
-              type="submit"
-              @click="submit"
-            />
-          </div>
-        </div>
-        <ul class="comment-list">
-          <li
-            v-for="comment in comments"
-            :key="comment._id"
-            class="comment-item"
-          >
-            <div class="comment-avatar">
-              <img :src="comment.avatar" alt />
-            </div>
-            <div class="comment-body">
-              <div class="comment-header">
-                <a :href="comment.site" class="username">{{
-                  comment.username
-                }}</a>
-                <ua :ua="comment.ua" />
-              </div>
-              <div class="comment-content">{{ comment.content }}</div>
-              <div class="comment-footer">
-                <span class="created-time">{{ comment.created_time }}</span>
-                <span class="like" @click="liked">
-                  <i class="iconfont icon-dianzan" /> 赞(0)
-                </span>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </section>
+      <!-- <comment-box></comment-box> -->
     </div>
   </div>
 </template>
 
 <script>
-import hljs from 'highlight.js'
-import Cookies from 'js-cookie'
-import ua from '@/components/ua'
-import 'highlight.js/styles/atom-one-dark.css'
-
-const highlightCode = () => {
-  const preEl = document.querySelectorAll('pre')
-  preEl.forEach((el) => {
-    hljs.highlightBlock(el)
-  })
-}
-
+// import gravatar from 'gravatar'
+import { mapState } from 'vuex'
+// import CommentBox from '@/components/CommentBox'
+import marked from '@/plugins/marked'
 export default {
   name: 'Detail',
   components: {
-    ua,
+    // CommentBox,
+  },
+  validate({ params }) {
+    return params.id && !isNaN(Number(params.id))
+  },
+  fetch({ store, params }) {
+    return store.dispatch('article/getArticleDetail', params)
   },
   data() {
     return {
-      id: this.$route.params.id,
-      title: this.$route.params.title,
-      article: {},
-      total: 0,
       comments: [],
       username: {
         validate: false,
@@ -182,23 +85,24 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      article: (state) => state.article.detail,
+    }),
     opinios() {
-      return Cookies.get(`article_liked_${this.id}`)
+      return ''
+      // return Cookies.get(`article_liked_${this.id}`)
     },
-  },
-  watch: {
-    $route(to, _from) {
-      if (to.name === 'detail') {
-        this.id = to.params.id
-        this.title = to.params.title
-        this.fetchArticle()
+    articleContent() {
+      const { content } = this.article
+      if (!content) {
+        return ''
       }
+      return marked(content, true)
     },
   },
   created() {
-    this.fetchArticle()
-    this.fetchComments()
-    highlightCode()
+    // this.fetchArticle()
+    // this.fetchComments()
   },
   methods: {
     checkContent() {
@@ -258,12 +162,13 @@ export default {
 
     async liked() {},
     getCookie(name) {
-      return Cookies.get(name)
+      return ''
+      // return Cookies.get(name)
     },
 
     setCookie(name, value) {
-      const halfHour = new Date(new Date().getTime() + 30 * 60 * 1000)
-      Cookies.set(name, value, { expires: halfHour })
+      // const halfHour = new Date(new Date().getTime() + 30 * 60 * 1000)
+      // Cookies.set(name, value, { expires: halfHour })
     },
   },
 }
@@ -465,27 +370,150 @@ export default {
 </style>
 
 <style lang="scss">
-.article-detail {
-  line-height: 2;
-  h3 {
-    font-size: 16px;
-    margin-top: 30px;
-    margin-bottom: 10px;
-    padding-left: 10px;
-    border-left: 5px solid #9466ff;
-    background: #f0f2f7;
+.article-content {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 1rem 0;
+    line-height: 1.8em;
+    font-weight: 700;
+    text-indent: 0;
   }
-  ul li:hover {
-    background-color: hsla(0, 0%, 77.3%, 0.5);
+  p {
+    line-height: 2.2em;
+    text-indent: 2em;
+    margin-bottom: 1em;
   }
-  .code,
-  code:not([class*='lang']) {
-    padding: 2px 5px;
-    background: #f7f7f9;
-    border: 1px solid #e3edf3;
-    border-radius: 3px;
-    font-family: play;
-    color: #d14;
+  pre {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    margin-bottom: 1em;
+    padding-left: 3rem;
+    font-size: 13.3px;
+    background-color: rgba(0, 0, 0, 0.8);
+    &::before {
+      content: attr(data-lang) ' CODE';
+      display: block;
+      color: #fff;
+      height: 30px;
+      line-height: 30px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      font-weight: 700;
+      background-color: rgba(68, 68, 68, 0.9);
+      text-transform: uppercase;
+      text-align: center;
+    }
+    .code-lines {
+      position: absolute;
+      left: 0;
+      top: 30px;
+      margin: 0;
+      padding: 9px 0;
+      width: 3rem;
+      // height: calc(100% - 30px);
+      text-align: center;
+      color: #555;
+      background-color: rgba(0, 0, 0, 0.2);
+      .code-line-number {
+        position: relative;
+        padding: 0;
+        list-style-type: none;
+        line-height: 30px;
+        font-size: 12.432px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        transition: none;
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 3rem;
+          width: 66em;
+          height: 100%;
+          background-color: hsla(0, 0%, 60.4%, 0.2);
+          opacity: 0;
+          visibility: hidden;
+        }
+        &:hover::before {
+          opacity: 1;
+          visibility: visible;
+        }
+        &:hover {
+          background-color: hsla(0, 0%, 100%, 0.6);
+        }
+      }
+    }
+    code[class*='language-'] {
+      display: block;
+      float: left;
+      margin: 0;
+      padding: 9px 0;
+      width: 100%;
+      height: 100%;
+      line-height: 30px;
+      color: hsla(0, 0%, 100%, 0.87);
+      background-color: transparent;
+    }
+  }
+
+  img {
+    // max-width: 100%;
+    width: 100%;
+    position: relative;
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+    border-radius: 2px;
+    border: 0.618rem solid hsla(0, 0%, 77.3%, 0.5);
+    opacity: 0.9;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+  ol,
+  ul {
+    margin-bottom: 1em;
+    padding-left: 3em;
+    vertical-align: baseline;
+    li {
+      line-height: 1.8em;
+      padding: 0.5em 0.8em;
+      &:hover {
+        background-color: hsla(0, 0%, 77.3%, 0.5);
+      }
+    }
   }
 }
+
+// .article-detail {
+//   line-height: 2;
+//   h3 {
+//     font-size: 16px;
+//     margin-top: 30px;
+//     margin-bottom: 10px;
+//     padding-left: 10px;
+//     border-left: 5px solid #9466ff;
+//     background: #f0f2f7;
+//   }
+//   ul li:hover {
+//     background-color: hsla(0, 0%, 77.3%, 0.5);
+//   }
+//   .code,
+//   code:not([class*='lang']) {
+//     padding: 2px 5px;
+//     background: #f7f7f9;
+//     border: 1px solid #e3edf3;
+//     border-radius: 3px;
+//     font-family: play;
+//     color: #d14;
+//   }
+// }
 </style>
