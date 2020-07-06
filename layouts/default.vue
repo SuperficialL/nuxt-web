@@ -17,7 +17,7 @@
 // import { mapState } from 'vuex'
 import AppHeader from '@/components/Header'
 import AppFooter from '@/components/Footer'
-import AppSidebar from '@/components/SidBar'
+import AppSidebar from '@/components/SideBar'
 export default {
   name: 'App',
   components: {
