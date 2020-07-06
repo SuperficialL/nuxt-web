@@ -63,8 +63,8 @@
           <li v-for="tag in tags" :key="tag._id" class="tag">
             <nuxt-link
               :to="{
-                name: 'tag',
-                params: { id: tag._id },
+                name: 'tag-slug',
+                params: { slug: tag.slug },
                 query: { title: tag.title },
               }"
             >

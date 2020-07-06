@@ -10,7 +10,7 @@
           </div>
           <ul class="nav-menu">
             <li class="nav-item">
-              <nuxt-link to="/" exact>
+              <nuxt-link :to="{ name: 'index' }" exact>
                 <i class="el-icon-s-home" />
                 首页
               </nuxt-link>
@@ -18,9 +18,8 @@
             <li v-for="(root, index) in menu" :key="index" class="nav-item">
               <nuxt-link
                 :to="{
-                  name: 'category',
-                  params: { id: root._id },
-                  query: { title: root.name },
+                  name: 'category-slug',
+                  params: { slug: root.slug, title: root.name },
                 }"
               >
                 <i class="iconfont" :class="root.icon" />
@@ -38,9 +37,8 @@
                 >
                   <nuxt-link
                     :to="{
-                      name: 'category',
-                      params: { id: child._id },
-                      query: { title: child.name },
+                      name: 'category-slug',
+                      params: { slug: child.slug, title: child.name },
                     }"
                     exact
                   >

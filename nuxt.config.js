@@ -31,24 +31,17 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      // {
-      //   rel: 'stylesheet',
-      //   href: '//at.alicdn.com/t/font_656382_tsyi759rqy.css',
-      // },
+      {
+        rel: 'stylesheet',
+        href: '//at.alicdn.com/t/font_656382_n6ts3yju1gf.css',
+      },
     ],
   },
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#0088f5' },
-  /*
-   ** router change scroll to top
-   */
-  router: {
-    scrollBehavior(to, from, savedPosition) {
-      return { x: 0, y: 0 }
-    },
-  },
+  loading: './components/Loading',
+  // loading: { color: '#0088f5' },
   /*
    ** Global CSS
    */

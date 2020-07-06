@@ -1,7 +1,7 @@
 /*
  * @Author: SuperficialL
  * @Date: 2020-07-04 10:38:33
- * @LastEditTime: 2020-07-04 14:31:30
+ * @LastEditTime: 2020-07-06 22:48:56
  * @Description: markdown语法解析
  */
 
@@ -115,7 +115,7 @@ export default (content, tags, parseHtml = false) => {
   //     : text => text;
 
   // 如果是解析评论，则不解析 html 内容
-  marked.setOptions({ sanitize: !parseHtml })
+  marked.setOptions()
 
   if (typeof content !== 'string') {
     return ''
