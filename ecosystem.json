@@ -2,12 +2,9 @@
   "apps": [
     {
       "name": "nuxt",
-      "script": "./node_modules/nuxt/bin/nuxt-start",
       "autorestart": true,
       "watch": false,
-      "max_memory_restart": "500M",
       "exec_mode": "fork",
-      "ignore_watch": ["node_modules"],
       "env": {
         "COMMON_ENV_VAR": "true"
       },
