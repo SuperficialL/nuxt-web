@@ -20,8 +20,8 @@
       "repo": "git@github.com:SuperficialL/nuxt-web.git",
       "ref": "origin/master",
       "path": "/srv/nuxt-web",
-      "post-deploy": "rm -rf node_modules && yarn",
-      "pre-deploy-local": "echo 'Deploy Done!'",
+      "post-deploy": "rm -rf node_modules && yarn && yarn build",
+      "pre-deploy-local": "echo 'Deploy Done!'",  
       "env": {
         "NODE_ENV": "production"
       }
