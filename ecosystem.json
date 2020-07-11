@@ -3,7 +3,6 @@
     {
       "name": "nuxt",
       "autorestart": true,
-      "watch": false,
       "exec_mode": "fork",
       "env": {
         "COMMON_ENV_VAR": "true"
