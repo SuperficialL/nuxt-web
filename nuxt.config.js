@@ -33,22 +33,27 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {
         rel: 'stylesheet',
-        href: '//at.alicdn.com/t/font_656382_n6ts3yju1gf.css',
+        href: '//at.alicdn.com/t/font_656382_l9r4d3cwnp.css',
       },
     ],
+  },
+  /*
+   ** Customize router highlight color
+   */
+  router: {
+    linkActiveClass: 'link-active',
   },
   /*
    ** Customize the progress-bar color
    */
   loading: './components/Loading',
-  // loading: { color: '#0088f5' },
   /*
    ** Global CSS
    */
   css: [
     'element-ui/lib/theme-chalk/index.css',
     'swiper/css/swiper.css',
-    'highlight.js/styles/ocean.css',
+    'highlight.js/scss/atom-one-dark.scss',
     '@/assets/scss/reset.scss',
   ],
   /*

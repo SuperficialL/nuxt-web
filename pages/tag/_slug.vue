@@ -2,7 +2,7 @@
   <div class="container">
     <div class="breadcrumb">
       <div class="tag-title">
-        <h4>当前分类: {{ $route.params.slug }}</h4>
+        <h4>当前分类: {{ $route.params.title }}</h4>
         <span>共 {{ total }} 篇</span>
       </div>
     </div>
@@ -21,8 +21,9 @@ export default {
   components: {
     ArticleList,
   },
-  fetch({ store, query, params }) {
-    return store.dispatch('article/getArticleList', {
+  fetch({ store, params }) {
+    console.log(params, 'params')
+    return store.dispatch('article/fetchList', {
       tag_slug: params.slug,
     })
   },

@@ -1,10 +1,10 @@
 <template>
   <footer class="footer">
-    <div class="footer-top-inner">
+    <div v-if="links.length" class="footer-top-inner">
       <ul class="links-wrap">
-        <!-- <li v-for="(link, index) in friendsLink" :key="index" class="link">
-          <a :href="link.url" target="_blank">{{ link.name }}</a>
-        </li> -->
+        <li v-for="(link, index) in links" :key="index" class="link">
+          <a :href="link.address" target="_blank">{{ link.title }}</a>
+        </li>
       </ul>
     </div>
     <div class="footer-bottom-inner">
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 export default {
   name: 'Footer',
   data() {
@@ -29,7 +29,7 @@ export default {
     }
   },
   computed: {
-    // ...mapGetters(['friendsLink'])
+    ...mapState('link', ['links']),
   },
   mounted() {
     this.$nextTick(() => {

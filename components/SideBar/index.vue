@@ -20,32 +20,62 @@
     <div class="sidebar">
       <div class="sidebar-header">
         <h4 class="sidebar-title">
+          热门文章
+        </h4>
+      </div>
+      <div class="sidebar-content">
+        <ul v-if="hotArticles.length" class="recent-comment">
+          <li v-for="(article, index) in hotArticles" :key="index" class="item">
+            <nuxt-link
+              :to="{
+                name: 'article-id',
+                params: { id: article.id, title: article.title },
+              }"
+            >
+              {{ article.title }}
+            </nuxt-link>
+          </li>
+        </ul>
+        <div v-else>
+          暂无文章
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h4 class="sidebar-title">
           最近评论
         </h4>
       </div>
       <div class="sidebar-content">
-        <ul class="recent-comment">
-          <li v-for="(comment, index) in comments" :key="index" class="item">
-            <a href="#" :title="comment.title">
+        <ul v-if="hotComments.length" class="recent-comment">
+          <li v-for="(comment, index) in hotComments" :key="index" class="item">
+            <div class="avatar">
               <img
-                class="avatar"
-                :src="comment.avatar"
-                :alt="comment.username"
-                width="50"
-                height="50"
+                :src="getGravatarUrlByEmail(comment.author.email)"
+                :alt="comment.author.name"
               />
-            </a>
+            </div>
             <div class="con">
-              <a href="#" :title="comment.title">
-                <p>{{ comment.content }}</p>
-              </a>
+              <nuxt-link
+                :to="{
+                  name: 'article-id',
+                  params: { id: comment.article_id },
+                }"
+              >
+                {{ comment.content }}
+              </nuxt-link>
               <p class="info">
-                {{ comment.username }} 评论于:
+                {{ comment.author.name }} 评论于:
                 {{ comment.created_time | dateFormat }}
               </p>
             </div>
           </li>
         </ul>
+        <div v-else>
+          暂无评论
+        </div>
       </div>
     </div>
 
@@ -59,19 +89,21 @@
         </nuxt-link>
       </div>
       <div class="sidebar-content">
-        <ul class="sidebar-tags">
+        <ul v-if="tags.length" class="sidebar-tags">
           <li v-for="tag in tags" :key="tag._id" class="tag">
             <nuxt-link
               :to="{
                 name: 'tag-slug',
-                params: { slug: tag.slug },
-                query: { title: tag.title },
+                params: { slug: tag.slug, title: tag.title },
               }"
             >
               {{ tag.title }}
             </nuxt-link>
           </li>
         </ul>
+        <div v-else>
+          暂无标签
+        </div>
       </div>
     </div>
 
@@ -95,6 +127,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { getGravatarByEmail } from '@/utils'
 export default {
   name: 'Sidebar',
   data() {
@@ -103,25 +136,14 @@ export default {
     }
   },
   computed: {
+    ...mapState('article', ['hotArticles']),
+    ...mapState('comment', ['hotComments']),
     ...mapState('tag', ['tags']),
-    ...mapState('comment', ['comments']),
-    // ...mapState({
-    //   sidebar: state => ({
-    //     notice: state.info.notice,
-    //     newComment: state.info.newComment,
-    //     isOpenTextThumbnail: state.info.isOpenTextThumbnail,
-    //     isOpenAsideCount: state.info.isOpenAsideCount,
-    //     getAllCountTag: state.info.getAllCountTag,
-    //     getAllCountArticle: state.info.getAllCountArticle,
-    //     getAllCountPage: state.info.getAllCountPage,
-    //     getAllCountComment: state.info.getAllCountComment,
-    //     getAllCountCat: state.info.getAllCountCat,
-    //     lastUpDate: state.info.lastUpDate,
-    //     tagCloud: state.info.tagCloud
-    //   })
-    // })
   },
   methods: {
+    getGravatarUrlByEmail(email) {
+      return getGravatarByEmail(email)
+    },
     // 查询
     search() {
       this.$message.success('查询功能博主正在开发中!')
@@ -204,11 +226,9 @@ export default {
 .recent-list {
   .item {
     border-bottom: 1px dotted #ccc;
-
     &:last-child {
       margin-bottom: 0;
     }
-
     a {
       display: flex;
       align-items: center;
@@ -225,37 +245,29 @@ export default {
   position: relative;
   width: 100%;
   overflow: hidden;
-
   .item {
     display: flex;
     align-items: center;
     padding: 10px 0;
     border-bottom: 1px dotted #ccc;
-
-    &:hover .avatar {
-      transform: rotate(360deg);
-    }
-
     &:last-child {
       border-bottom: none;
     }
-
     .avatar {
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       margin-right: 10px;
       transition: 0.6s;
     }
-
     .con {
       flex: 1;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-
       a {
         color: #333;
       }
-
       .info {
         font-size: 12px;
         color: #999;

@@ -3,11 +3,11 @@
     <div class="header-container" :class="{ fixed: isFixed }">
       <div class="wrap">
         <div class="nav-container">
-          <div class="logo">
+          <h1 class="logo">
             <nuxt-link to="/">
               SuperficialL Blog
             </nuxt-link>
-          </div>
+          </h1>
           <ul class="nav-menu">
             <li class="nav-item">
               <nuxt-link :to="{ name: 'index' }" exact>
@@ -15,7 +15,7 @@
                 首页
               </nuxt-link>
             </li>
-            <li v-for="(root, index) in menu" :key="index" class="nav-item">
+            <li v-for="(root, index) in nav" :key="index" class="nav-item">
               <nuxt-link
                 :to="{
                   name: 'category-slug',
@@ -57,7 +57,7 @@
 
 <script>
 import { mapState } from 'vuex'
-
+import { arrayToTree } from '@/utils'
 export default {
   name: 'Header',
   data() {
@@ -67,6 +67,9 @@ export default {
   },
   computed: {
     ...mapState('category', ['menu']),
+    nav() {
+      return arrayToTree(this.menu)
+    },
   },
   mounted() {
     let oldTop = 0
@@ -111,7 +114,9 @@ export default {
   .wrap {
     width: 1200px;
     margin: 0 auto;
+    height: inherit;
     .logo {
+      font-size: 24px;
       cursor: pointer;
     }
     .nav-container {
@@ -136,32 +141,49 @@ export default {
             &:hover {
               color: #0088f5;
             }
+            &.link-active {
+              font-weight: bold;
+              color: #0088f5;
+            }
           }
           & > .sub-menu {
-            top: 100%;
-            left: 0;
-            z-index: 9;
+            position: relative;
             min-width: 100px;
-            overflow: hidden;
-            background: #ccc;
+            background: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             transition: all 0.3s;
             transform-origin: 0 0;
             transform: rotateX(-90deg);
+            &:before {
+              content: '';
+              position: absolute;
+              top: -10px;
+              left: 50%;
+              margin-left: -2.5px;
+              width: 0;
+              height: 0;
+              border: 5px solid transparent;
+              border-bottom-color: #fff;
+            }
             a {
               display: block;
               padding: 10px 15px;
             }
             .sub-item {
               text-align: left;
-            }
-            .sub-item:hover a {
-              color: #0088f5;
+              transition: all 0.4s;
+              &:hover {
+                text-indent: 5px;
+                background-color: #0088f5;
+                a {
+                  color: #fff;
+                }
+              }
             }
           }
           &:hover > ul {
             transform: rotateX(0);
-            transition: all 0.3s;
+            transition: transform 0.3s;
           }
         }
       }

@@ -2,7 +2,7 @@
   <div class="container">
     <div class="breadcrumb">
       <div class="category-title">
-        <h4>当前分类: {{ $route.params.slug }}</h4>
+        <h4>当前分类: {{ $route.params.title }}</h4>
         <span>共 {{ total }} 篇</span>
       </div>
     </div>
@@ -21,8 +21,7 @@ export default {
     ArticleList,
   },
   fetch({ store, query, params }) {
-    // store.commit('article/SET_CURRENT_PAGE', +params.slug)
-    return store.dispatch('article/getArticleList', {
+    return store.dispatch('article/fetchList', {
       category_slug: params.slug,
     })
   },

@@ -12,13 +12,14 @@
       <ul class="tabs">
         <li class="active">最新文章</li>
       </ul>
-      <article-list :articles="articles" />
+      <article-list :articles="articles.data" />
       <el-pagination
         style="text-align: center; margin-top: 20px;"
-        :page-size="per_page"
-        :current-page="page"
+        :page-size.sync="pagination.per_page"
+        :current-page.sync="pagination.page"
         layout="prev, pager, next, jumper"
-        :total="total"
+        :total="pagination.total"
+        @size-change="handleCurrentChange"
         @current-change="handleCurrentChange"
       />
     </section>
@@ -35,7 +36,7 @@ export default {
     ArticleList,
   },
   fetch({ store, params }) {
-    return store.dispatch('article/getArticleList')
+    return store.dispatch('article/fetchList')
   },
   data() {
     return {
@@ -60,14 +61,14 @@ export default {
     }
   },
   computed: {
-    ...mapState('article', ['articles', 'total', 'page', 'per_page']),
+    ...mapState('article', ['articles', 'pagination']),
   },
   methods: {
     handleCurrentChange(val) {
       const params = {
         page: val,
       }
-      this.$store.dispatch('article/getArticleList', params)
+      this.$store.dispatch('article/fetchList', params)
     },
   },
   head() {

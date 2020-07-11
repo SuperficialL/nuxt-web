@@ -1,11 +1,11 @@
 /*
  * @Author: SuperficialL
  * @Date: 2019-11-15 22:49:46
- * @LastEditTime: 2020-07-03 22:31:06
- * @Description: 工具函数
+ * @LastEditTime: 2020-07-08 13:30:45
+ * @Description: element-ui配置
  */
 import Vue from 'vue'
 import Element from 'element-ui'
-import locale from 'element-ui/lib/locale/lang/en'
+import locale from 'element-ui/lib/locale/lang/zh-CN'
 
 Vue.use(Element, { locale })

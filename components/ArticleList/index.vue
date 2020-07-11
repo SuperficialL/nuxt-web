@@ -1,5 +1,5 @@
 <template>
-  <div class="article-list">
+  <div v-if="articles.length" class="article-list">
     <article v-for="article in articles" :key="article.id" class="article">
       <nuxt-link
         class="article-thumbnail"
@@ -25,7 +25,7 @@
         <div class="article-info">
           <div class="article-meta">
             <span>
-              <i class="iconfont icon-msnui-time-detail" />
+              <i class="iconfont icon-time" />
               {{ article.created_time | dateFormat }}
             </span>
             <span>
@@ -33,7 +33,7 @@
               {{ article.views }}
             </span>
             <span>
-              <i class="iconfont icon-pinglun" />
+              <i class="iconfont icon-comment" />
               {{ article.comments }}
             </span>
             <span>
@@ -55,6 +55,7 @@
       </div>
     </article>
   </div>
+  <div v-else class="article-list">暂无文章</div>
 </template>
 
 <script>
@@ -76,11 +77,9 @@ export default {
   justify-content: space-between;
   padding: 20px 0;
   border-bottom: 1px solid #eee;
-
   &:hover .thumbnail {
     transform: scale(1.075);
   }
-
   &::after {
     content: '';
     position: absolute;
@@ -89,12 +88,10 @@ export default {
     height: 1px;
     transition: width 0.5s;
   }
-
   &:hover::after {
     width: 100%;
     background-color: #1890ff;
   }
-
   .article-thumbnail {
     display: block;
     margin-right: 10px;
@@ -102,18 +99,15 @@ export default {
     border-radius: 6px;
     width: 240px;
     height: 160px;
-
     .thumbnail {
       width: 240px;
       height: 160px;
       transition: 0.4s ease-in-out;
     }
   }
-
   .article-content {
     position: relative;
     flex: 1;
-
     .title {
       // font-size: 18px;
       overflow: hidden;
@@ -121,7 +115,6 @@ export default {
       white-space: nowrap;
       font-weight: 500;
       vertical-align: middle;
-
       .classify {
         vertical-align: middle;
         position: relative;
@@ -129,9 +122,8 @@ export default {
         padding: 3px 5px;
         font-size: 12px;
         color: #fff;
-        border-radius: 6px;
+        border-radius: 2px;
         background-color: #1890ff;
-
         &::after {
           content: '';
           position: absolute;
@@ -142,12 +134,10 @@ export default {
           border-left-color: #1890ff;
         }
       }
-
       a {
         vertical-align: middle;
       }
     }
-
     .summary {
       display: -webkit-box;
       -webkit-line-clamp: 4;
@@ -161,19 +151,21 @@ export default {
       word-break: break-word;
       text-overflow: ellipsis;
     }
-
     .article-info {
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
       font-size: 12px;
-
       .article-meta {
         font-size: 12px;
         color: #999;
-
         span {
           margin-right: 8px;
+        }
+      }
+      .detail-btn {
+        &:hover {
+          color: #1890ff;
         }
       }
     }

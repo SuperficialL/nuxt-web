@@ -29,21 +29,26 @@ export default {
 </script>
 
 <style lang="scss">
-.wrap {
-  width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
+#app {
+  .main {
+    min-height: calc(100vh - 160px);
+    .wrap {
+      width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
 
-  // 左边内容容器
-  .content {
-    width: 70% !important;
-  }
+      // 左边内容容器
+      .content {
+        width: 70% !important;
+      }
 
-  // 侧边栏
-  .sidebar-wrap {
-    width: 280px;
+      // 侧边栏
+      .sidebar-wrap {
+        width: 280px;
+      }
+    }
   }
 }
 

@@ -16,5 +16,14 @@ module.exports = {
   ],
   plugins: ['prettier'],
   // add your custom rules here
-  rules: {},
+  rules: {
+    // camelcase: [
+    //   'error',
+    //   {
+    //     properties: 'never',
+    //     ignoreGlobals: true,
+    //   },
+    // ],
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+  },
 }

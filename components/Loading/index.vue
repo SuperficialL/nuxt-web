@@ -9,7 +9,7 @@
         opacity: show ? 1 : 0,
       }"
     ></div>
-    <i class="iconfont icon-Loading"></i>
+    <i class="iconfont icon-loading"></i>
     <p>{{ text }}</p>
   </div>
 </template>
@@ -95,7 +95,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .nuxt-loading-container {
   position: fixed;
   top: 0;
@@ -109,7 +109,7 @@ export default {
   height: 100%;
   background: rgba(255, 255, 255, 0.8);
   color: #0088f5;
-  .icon-Loading {
+  .icon-loading {
     font-size: 26px;
     animation: rotating 2s linear infinite;
   }
@@ -124,11 +124,6 @@ export default {
     opacity: 1;
     background-color: #0088f5;
     z-index: 999999;
-  }
-}
-@keyframes rotating {
-  100% {
-    transform: rotate(1turn);
   }
 }
 </style>
