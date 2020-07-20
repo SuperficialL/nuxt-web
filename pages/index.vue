@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <section class="carousel">
+  <div class="index-page">
+    <section class="carousel" :class="{ mobile: isMobile }">
       <swiper :options="swiperOption">
         <swiper-slide v-for="(item, index) in carousels" :key="index">
           <img :src="item.path" />
@@ -62,6 +62,9 @@ export default {
   },
   computed: {
     ...mapState('article', ['articles', 'pagination']),
+    isMobile() {
+      return this.$store.state.global.isMobile
+    },
   },
   methods: {
     handleCurrentChange(val) {
@@ -84,37 +87,47 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.carousel {
-  overflow: hidden;
-  border-radius: 4px;
-  margin-bottom: 20px;
-}
-.article-wrapper {
-  padding: 8px 15px;
-  background-color: #fff;
-  border-radius: 6px;
-  overflow: hidden;
-  .tabs {
-    display: flex;
-    align-items: center;
-    height: 30px;
-    border-bottom: 1px solid #e9eaed;
-    font-size: 16px;
-    li {
-      position: relative;
+$pc-carrousel-height: 320px;
+$mobile-carrousel-height: calc((100vw - 20px) * 0.35);
+
+.index-page {
+  .carousel {
+    position: relative;
+    height: $pc-carrousel-height;
+    overflow: hidden;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    &.mobile {
+      height: $mobile-carrousel-height;
+    }
+  }
+  .article-wrapper {
+    padding: 8px 15px;
+    background-color: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    .tabs {
       display: flex;
       align-items: center;
-      &.active {
-        color: #08c;
-      }
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: -7px;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background-color: #08c;
+      height: 30px;
+      border-bottom: 1px solid #e9eaed;
+      font-size: 16px;
+      li {
+        position: relative;
+        display: flex;
+        align-items: center;
+        &.active {
+          color: #08c;
+        }
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: -7px;
+          left: 0;
+          width: 100%;
+          height: 2px;
+          background-color: #08c;
+        }
       }
     }
   }

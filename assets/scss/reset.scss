@@ -1,7 +1,7 @@
 /*
  * @Author: Superficial
  * @Date: 2019-12-17 14:30:56
- * @LastEditTime: 2020-07-11 13:20:48
+ * @LastEditTime: 2020-07-20 17:00:15
  * @Description: 浏览器样式初始化
  */
 
@@ -93,10 +93,12 @@ blockquote {
   background: #f8f8f8;
   border-radius: 5px;
 }
+
 code,
 code:not([class*='lang']) {
   font-family: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
 }
+
 code:not([class*='lang']) {
   padding: 2px 5px;
   background: #f7f7f9;
@@ -131,4 +133,9 @@ code:not([class*='lang']) {
   100% {
     transform: rotate(1turn);
   }
+}
+
+.wrap {
+  width: 1200px;
+  margin: auto;
 }

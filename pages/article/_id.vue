@@ -1,34 +1,32 @@
 <template>
-  <div class="wrap">
-    <div class="content">
-      <section class="article-wrap">
-        <article class="article">
-          <h3 class="title">{{ article.title }}</h3>
-          <div class="article-meta">
-            <span v-if="article.created_time">
-              <i class="iconfont icon-time" />
-              {{ article.created_time | dateFormat }}
-            </span>
-            <span>
-              <i class="iconfont icon-eye" />
-              {{ article.views }}
-            </span>
-            <span>
-              <i class="iconfont icon-comment" />
-              {{ article.comments }}
-            </span>
-            <span>
-              <i class="iconfont icon-dianzan" />
-              {{ article.likes }}
-            </span>
-          </div>
-          <!-- eslint-disable-next-line vue/no-v-html -->
-          <div class="article-content" v-html="articleContent" />
-        </article>
-      </section>
+  <div class="content">
+    <section class="article-wrap">
+      <article class="article">
+        <h3 class="title">{{ article.title }}</h3>
+        <div class="article-meta">
+          <span v-if="article.created_time">
+            <i class="iconfont icon-time" />
+            {{ article.created_time | dateFormat }}
+          </span>
+          <span>
+            <i class="iconfont icon-eye" />
+            {{ article.views }}
+          </span>
+          <span>
+            <i class="iconfont icon-comment" />
+            {{ article.comments }}
+          </span>
+          <span>
+            <i class="iconfont icon-dianzan" />
+            {{ article.likes }}
+          </span>
+        </div>
+        <!-- eslint-disable-next-line vue/no-v-html -->
+        <div class="article-content" v-html="articleContent" />
+      </article>
+    </section>
 
-      <comment-box :article-id="articleId" :likes="article.likes"></comment-box>
-    </div>
+    <comment-box :article-id="articleId" :likes="article.likes"></comment-box>
   </div>
 </template>
 
@@ -49,9 +47,6 @@ export default {
       store.dispatch('article/getArticleDetail', params),
       store.dispatch('comment/fetchList', { article_id: params.id }),
     ])
-  },
-  data() {
-    return {}
   },
   computed: {
     ...mapState('article', ['article']),
@@ -74,11 +69,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.wrap {
-  display: flex;
-  justify-content: space-between;
-  margin: 20px auto;
-}
 .content {
   .article-wrap {
     .article {

@@ -22,7 +22,11 @@ export default {
     title: process.env.npm_package_name || '',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      {
+        name: 'viewport',
+        content:
+          'width=device-width, initial-scale=1,maximum-scale=1.0, user-scalable=0',
+      },
       {
         hid: 'description',
         name: 'description',
@@ -33,7 +37,7 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {
         rel: 'stylesheet',
-        href: '//at.alicdn.com/t/font_656382_l9r4d3cwnp.css',
+        href: '//at.alicdn.com/t/font_656382_bpy57e12ls.css',
       },
     ],
   },
@@ -54,7 +58,7 @@ export default {
     'element-ui/lib/theme-chalk/index.css',
     'swiper/css/swiper.css',
     'highlight.js/scss/atom-one-dark.scss',
-    '@/assets/scss/reset.scss',
+    '@/assets/scss/index.scss',
   ],
   /*
    ** Plugins to load before mounting the App
@@ -97,11 +101,9 @@ export default {
   proxy: {
     '/api': {
       // target: 'http://www.zhangwurui.net',// 网站请求数据
+      // target: 'http://49.233.165.116:3000', // 网站请求数据
       target: 'http://127.0.0.1:3000', // 网站请求数据
       changeOrigin: true,
-      // pathRewrite: {
-      //   '^/api/': '/'
-      // }
     },
     '/uploads': {
       target: 'http://www.zhangwurui.net', // 网站请求数据

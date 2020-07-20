@@ -1,66 +1,33 @@
 <template>
-  <div id="app">
-    <app-header />
-    <div class="main">
-      <div class="wrap">
-        <div class="content">
-          <nuxt />
-        </div>
-        <app-sidebar class="sidebar-wrap" />
-      </div>
-    </div>
-    <app-footer />
+  <div v-cloak id="app">
+    <pc-main-view v-if="!isMobile" />
+    <mobile-main-view v-else />
   </div>
 </template>
 
 <script>
-// import { mapState } from 'vuex'
-import AppHeader from '@/components/Header'
-import AppFooter from '@/components/Footer'
-import AppSidebar from '@/components/SideBar'
+import PcMainView from '~/components/layout/pc'
+import MobileMainView from '~/components/layout/mobile'
 export default {
   name: 'App',
   components: {
-    AppHeader,
-    AppFooter,
-    AppSidebar,
+    PcMainView,
+    MobileMainView,
+  },
+  computed: {
+    isMobile() {
+      return this.$store.state.global.isMobile
+    },
   },
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 #app {
-  .main {
-    min-height: calc(100vh - 160px);
-    .wrap {
-      width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      margin-top: 20px;
-
-      // 左边内容容器
-      .content {
-        width: 70% !important;
-      }
-
-      // 侧边栏
-      .sidebar-wrap {
-        width: 280px;
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 1024px) {
-  .wrap {
-    .content {
-      width: 100%;
-    }
-
-    .sidebar-wrap {
-      display: none;
-    }
+  color: #000;
+  &[v-cloak] {
+    color: transparent;
+    -webkit-text-fill-color: transparent;
   }
 }
 </style>

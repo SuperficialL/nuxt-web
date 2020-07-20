@@ -186,6 +186,16 @@ export default {
       }
     },
 
+    // 获取输入框内容
+    getInputText() {
+      return this.$refs.markdownInput.textContent
+    },
+
+    // 设置输入框内容
+    setInputText(content) {
+      this.$refs.markdownInput.textContent = content
+    },
+
     // 点击用户
     clickUser(event, user) {
       if (!user.site) event.preventDefault()

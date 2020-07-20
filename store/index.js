@@ -10,19 +10,23 @@ export const actions = {
     //   : navigator.language
     const userAgent = isServer ? req.headers['user-agent'] : navigator.userAgent
     const { isMobile, isWechat, isIE, isSafari } = uaParser(userAgent)
-    console.log(isMobile, isWechat, isIE, isSafari)
-    // console.log(userLanguage, req.headers['user-agent'], uaParser(userAgent))
+
+    store.commit('global/updateUserAgent', userAgent)
+    store.commit('global/updateMobileLayoutState', isMobile)
+
+    console.log({ isMobile, isWechat, isIE, isSafari })
+
     // const isZHUser =
     //   !userLanguage || userLanguage.includes(systemConstants.Language.Zh)
+
     const initFetchData = [
-      store.dispatch('tag/fetchList'),
       store.dispatch('category/fetchList'),
-      store.dispatch('comment/fetchList'),
       store.dispatch('link/fetchList'),
     ]
 
     // 如果不是移动端的话，则请求热门文章
     if (!isMobile) {
+      initFetchData.push(store.dispatch('tag/fetchList'))
       initFetchData.push(store.dispatch('article/fetchHotList'))
       initFetchData.push(store.dispatch('comment/fetchHotList'))
     }

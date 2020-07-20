@@ -2,12 +2,12 @@
   <div class="container">
     <div class="breadcrumb">
       <div class="category-title">
-        <h4>当前分类: {{ $route.params.title }}</h4>
-        <span>共 {{ total }} 篇</span>
+        <h4>当前分类: {{ params.category_slug }}</h4>
+        <span>共 {{ pagination.total || 0 }} 篇</span>
       </div>
     </div>
     <section class="article-wrapper">
-      <article-list :articles="articles" />
+      <article-list :articles="articles.data" />
     </section>
   </div>
 </template>
@@ -26,7 +26,7 @@ export default {
     })
   },
   computed: {
-    ...mapState('article', ['articles', 'total']),
+    ...mapState('article', ['articles', 'params', 'pagination']),
   },
   watch: {},
   methods: {},
