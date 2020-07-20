@@ -4,7 +4,7 @@
       <i class="iconfont icon-menu"></i>
     </span>
     <nuxt-link to="/">SuperficialL Blog</nuxt-link>
-    <span>
+    <span @click.stop.prevent="searchKeyWords">
       <i class="iconfont icon-search"></i>
     </span>
   </nav>
@@ -13,6 +13,11 @@
 <script>
 export default {
   name: 'Header',
+  data() {
+    return {
+      search: '',
+    }
+  },
   computed: {
     onMobileSidebar() {
       return this.$store.state.global.onMobileSidebar
@@ -28,6 +33,13 @@ export default {
     toggleSidebar(open) {
       this.$store.commit('global/updateMobileSidebarOnState', open)
     },
+    searchKeyWords() {
+      this.$message({
+        type: 'info',
+        message: '开发中~',
+        showClose: true,
+      })
+    },
   },
 }
 </script>
@@ -39,5 +51,10 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  span {
+    .iconfont {
+      font-size: 24px;
+    }
+  }
 }
 </style>

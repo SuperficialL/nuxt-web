@@ -194,6 +194,7 @@ export default {
       line-height: 30px;
       color: hsla(0, 0%, 100%, 0.87);
       background-color: transparent;
+      overflow: auto;
     }
   }
 

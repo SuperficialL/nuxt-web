@@ -88,7 +88,7 @@ export default {
 
 <style lang="scss" scoped>
 $pc-carrousel-height: 320px;
-$mobile-carrousel-height: calc((100vw - 20px) * 0.35);
+$mobile-carrousel-height: 100vw * 0.36;
 
 .index-page {
   .carousel {
@@ -98,6 +98,8 @@ $mobile-carrousel-height: calc((100vw - 20px) * 0.35);
     border-radius: 4px;
     margin-bottom: 20px;
     &.mobile {
+      overflow: hidden;
+      margin: 0 5px 20px;
       height: $mobile-carrousel-height;
     }
   }

@@ -7,7 +7,6 @@ export default {
   server: {
     port: 8000,
     host: '0.0.0.0',
-    timing: false,
   },
   /*
    ** Nuxt target
@@ -100,9 +99,9 @@ export default {
   },
   proxy: {
     '/api': {
-      // target: 'http://www.zhangwurui.net',// 网站请求数据
+      target: 'http://www.zhangwurui.net', // 网站请求数据
       // target: 'http://49.233.165.116:3000', // 网站请求数据
-      target: 'http://127.0.0.1:3000', // 网站请求数据
+      // target: 'http://127.0.0.1:3000', // 网站请求数据
       changeOrigin: true,
     },
     '/uploads': {

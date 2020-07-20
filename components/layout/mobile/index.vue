@@ -91,15 +91,16 @@ export default {
       transform: translate3d($aside-width, 0, 0);
     }
     header {
-      position: relative;
+      position: fixed;
+      top: 0;
       width: 100%;
       height: 60px;
       z-index: 10;
-      background-color: #fff;
+      background-color: rgba(255, 255, 255, 0.9);
     }
     main {
       flex: 1;
-      margin: 20px 0;
+      padding: 70px 10px 20px;
     }
     footer {
     }

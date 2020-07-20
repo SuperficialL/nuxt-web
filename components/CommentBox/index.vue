@@ -41,6 +41,7 @@
               contenteditable="true"
               class="markdown-input"
               placeholder="来点见解！"
+              @keyup="commentContentChange($event)"
             ></div>
           </div>
         </div>
@@ -149,7 +150,8 @@ export default {
         site: '',
         gravatar: null,
       },
-      content: '',
+      comemntContentHtml: '',
+      comemntContentText: '',
       historyLikes: {
         pages: [],
         comments: [],
@@ -203,7 +205,21 @@ export default {
 
     // 清空评论内容
     clearCommentContent() {
-      this.content = ''
+      this.comemntContentHtml = ''
+      this.$refs.markdownInput.innerHTML = this.comemntContentHtml
+      this.commentContentChange()
+    },
+
+    // 编辑器相关
+    commentContentChange() {
+      const html = this.$refs.markdownInput.innerHTML
+      const text = this.$refs.markdownInput.textContent
+      if (!Object.is(html, this.comemntContentHtml)) {
+        this.comemntContentHtml = html
+      }
+      if (!Object.is(text, this.comemntContentText)) {
+        this.comemntContentText = text
+      }
     },
 
     humanizeGravatarUrl(gravatar) {
@@ -233,7 +249,10 @@ export default {
       if (this.user.site && !urlRegex.test(this.user.site)) {
         return this.$message.warning(`站点地址错误!`)
       }
-      if (!this.content || !this.content.replace(/\s/g, '')) {
+      if (
+        !this.comemntContentText ||
+        !this.comemntContentText.replace(/\s/g, '')
+      ) {
         return this.$message.warning(`内容？`)
       }
       if (!this.user.site) {
@@ -244,7 +263,7 @@ export default {
           parent: this.parent,
           article_id: this.articleId,
           author: this.user,
-          content: this.content,
+          content: this.comemntContentText,
           agent: navigator.userAgent,
         })
         .then((res) => {
@@ -521,8 +540,11 @@ export default {
             .iconfont {
               color: #8a8a8a;
             }
-            &.liked .iconfont {
+            &.liked {
               color: #ff5722;
+              > .iconfont {
+                color: #ff5722;
+              }
             }
           }
         }
