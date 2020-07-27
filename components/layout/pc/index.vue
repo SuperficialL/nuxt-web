@@ -3,10 +3,12 @@
     <header-view />
     <main id="main">
       <div class="wrap">
-        <div class="content">
+        <div id="content">
           <nuxt :nuxt-child-key="$route.name" />
         </div>
-        <aside-view key="aside" />
+        <div v-if="!isShowSide" id="aside">
+          <aside-view />
+        </div>
       </div>
     </main>
     <footer-view />
@@ -14,6 +16,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import HeaderView from './header'
 import FooterView from './footer'
 import AsideView from './aside'
@@ -25,6 +28,9 @@ export default {
     FooterView,
     AsideView,
   },
+  computed: {
+    ...mapState('global', ['isShowSide']),
+  },
 }
 </script>
 
@@ -34,8 +40,11 @@ main {
   .wrap {
     display: flex;
     justify-content: space-between;
-    .content {
+    #content {
       width: 840px;
+    }
+    #aside {
+      width: 320px;
     }
   }
 }

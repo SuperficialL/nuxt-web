@@ -1,5 +1,5 @@
 <template>
-  <div v-cloak id="app">
+  <div v-cloak id="app" @scroll="scroll($event)">
     <pc-main-view v-if="!isMobile" />
     <mobile-main-view v-else />
   </div>
@@ -17,6 +17,11 @@ export default {
   computed: {
     isMobile() {
       return this.$store.state.global.isMobile
+    },
+  },
+  methods: {
+    scroll(ev) {
+      console.log(ev)
     },
   },
 }

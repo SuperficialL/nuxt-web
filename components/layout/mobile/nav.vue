@@ -1,24 +1,31 @@
 <template>
   <aside class="aside">
-    <ul class="nav-list">
-      <li class="nav-item">
-        <nuxt-link :to="{ name: 'index' }" exact>
-          <i class="el-icon-s-home" />
-          首页
-        </nuxt-link>
-      </li>
-      <li v-for="(root, index) in menu" :key="index" class="nav-item">
-        <nuxt-link
-          :to="{
-            name: 'category-slug',
-            params: { slug: root.slug, title: root.name },
-          }"
-        >
-          <i class="iconfont" :class="root.icon" />
-          {{ root.name }}
-        </nuxt-link>
-      </li>
-    </ul>
+    <nav class="nav-list">
+      <nuxt-link to="/" exact class="nav-item">
+        <i class="el-icon-s-home" />
+        <span> 首页 </span>
+      </nuxt-link>
+      <nuxt-link
+        v-for="(item, i) in categories"
+        :key="i"
+        :to="{
+          name: 'category-slug',
+          params: { slug: item.slug, title: item.name },
+        }"
+        class="nav-item"
+      >
+        <i class="iconfont" />
+        {{ item.name }}
+      </nuxt-link>
+      <nuxt-link to="/message" class="nav-item">
+        <i class="iconfont icon-message" />
+        <span> 留言墙 </span>
+      </nuxt-link>
+      <nuxt-link to="/about" class="nav-item">
+        <i class="iconfont icon-message" />
+        <span> 关于 </span>
+      </nuxt-link>
+    </nav>
   </aside>
 </template>
 
@@ -27,7 +34,7 @@ import { mapState } from 'vuex'
 export default {
   name: 'Nav',
   computed: {
-    ...mapState('category', ['menu']),
+    ...mapState('category', ['categories']),
   },
 }
 </script>
@@ -47,13 +54,11 @@ aside {
       border: none;
       text-decoration: none;
       text-transform: uppercase;
-      a {
-        display: block;
-        &.link-active {
-          color: #0088f5;
-          font-weight: bold;
-          background-color: #eee;
-        }
+      display: block;
+      &.link-active {
+        color: #0088f5;
+        font-weight: bold;
+        background-color: #eee;
       }
     }
   }

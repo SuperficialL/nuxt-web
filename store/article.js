@@ -1,7 +1,7 @@
 /*
  * @Author: SuperficialL
  * @Date: 2020-07-03 01:09:26
- * @LastEditTime: 2020-07-17 16:14:30
+ * @LastEditTime: 2020-07-27 17:47:58
  * @Description: 文章数据
  */
 export const state = () => {
@@ -44,7 +44,8 @@ export const mutations = {
 
   // 喜欢某篇文章
   updateLikesIncrement(state) {
-    const article = state.article.data
+    console.log(state, 'state')
+    const article = state.article
     article && article.likes++
   },
 }

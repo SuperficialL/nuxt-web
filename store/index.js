@@ -10,11 +10,10 @@ export const actions = {
     //   : navigator.language
     const userAgent = isServer ? req.headers['user-agent'] : navigator.userAgent
     const { isMobile, isWechat, isIE, isSafari } = uaParser(userAgent)
+    console.log({ isMobile, isWechat, isIE, isSafari })
 
     store.commit('global/updateUserAgent', userAgent)
     store.commit('global/updateMobileLayoutState', isMobile)
-
-    console.log({ isMobile, isWechat, isIE, isSafari })
 
     // const isZHUser =
     //   !userLanguage || userLanguage.includes(systemConstants.Language.Zh)
@@ -29,6 +28,7 @@ export const actions = {
       initFetchData.push(store.dispatch('tag/fetchList'))
       initFetchData.push(store.dispatch('article/fetchHotList'))
       initFetchData.push(store.dispatch('comment/fetchHotList'))
+      initFetchData.push(store.dispatch('global/fetchSiteStatistic'))
     }
 
     return Promise.all(initFetchData)

@@ -36,7 +36,7 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {
         rel: 'stylesheet',
-        href: '//at.alicdn.com/t/font_656382_bpy57e12ls.css',
+        href: '//at.alicdn.com/t/font_656382_4hmwkethb4.css',
       },
     ],
   },
@@ -44,6 +44,7 @@ export default {
    ** Customize router highlight color
    */
   router: {
+    middleware: ['changeSideStatus'],
     linkActiveClass: 'link-active',
   },
   /*
@@ -99,7 +100,7 @@ export default {
   },
   proxy: {
     '/api': {
-      // target: 'http://www.zhangwurui.net', // 网站请求数据
+      // target: 'http://49.233.165.116:3000',
       target: 'http://127.0.0.1:3000', // 网站请求数据
       changeOrigin: true,
     },

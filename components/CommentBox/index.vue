@@ -312,7 +312,6 @@ export default {
         .then((res) => {
           this.historyLikes.pages.push(this.articleId)
           localHistoryLikes.set(this.historyLikes)
-          window.console.log('喜欢成功~', res)
         })
         .catch((err) => {
           window.console.log('喜欢失败', err)
@@ -332,7 +331,6 @@ export default {
         .then((res) => {
           this.historyLikes.comments.push(comment.id)
           localHistoryLikes.set(this.historyLikes)
-          window.console.log('喜欢成功~', res)
         })
         .catch((err) => {
           window.console.log('喜欢失败', err)

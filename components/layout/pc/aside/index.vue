@@ -1,5 +1,5 @@
 <template>
-  <aside class="sidebar-wrapper">
+  <aside ref="aside" class="sidebar-wrapper">
     <div class="sidebar">
       <div class="search-wrapper">
         <el-input
@@ -115,10 +115,22 @@
       </div>
       <div class="sidebar-content">
         <ul class="site">
-          <li>分类:1个</li>
-          <li>标签:1个</li>
-          <li>文章:1篇</li>
-          <li>评论:1条</li>
+          <li>
+            分类:<span> {{ statistic.categories }}</span
+            >个
+          </li>
+          <li>
+            标签:<span> {{ statistic.tags }}</span
+            >个
+          </li>
+          <li>
+            文章:<span> {{ statistic.articles }}</span
+            >篇
+          </li>
+          <li>
+            评论:<span> {{ statistic.comments }}</span
+            >条
+          </li>
         </ul>
       </div>
     </div>
@@ -128,6 +140,8 @@
 <script>
 import { mapState } from 'vuex'
 import { getGravatarByEmail } from '@/utils'
+import { isBrowser } from '~/env'
+
 export default {
   name: 'Sidebar',
   data() {
@@ -139,7 +153,17 @@ export default {
     ...mapState('article', ['hotArticles']),
     ...mapState('comment', ['hotComments']),
     ...mapState('tag', ['tags']),
+    ...mapState('global', ['statistic']),
   },
+  mounted() {
+    if (isBrowser) {
+      this.$nextTick(() => {
+        document.addEventListener('scroll', this.handleStickyStateChange)
+      })
+    }
+  },
+  beforeDestroy() {},
+
   methods: {
     getGravatarUrlByEmail(email) {
       return getGravatarByEmail(email)
@@ -148,11 +172,26 @@ export default {
     search() {
       this.$message.success('查询功能博主正在开发中!')
     },
+    handleStickyStateChange(event) {
+      // workaround: when (main container height >= aside height) & isSticky -> render sticky ad
+      const asideElementHeight = this.$refs.aside.clientHeight
+      console.log(asideElementHeight, 'asideElementHeight')
+      const mainContentElementHeight = document.getElementById('content')
+        .children[0].clientHeight
+      console.log(mainContentElementHeight, 'mainContentElementHeight')
+      const isFixed = mainContentElementHeight >= asideElementHeight
+      if (isFixed) {
+      }
+    },
   },
 }
 </script>
 
 <style lang="scss" scoped>
+.sidebar-wrapper {
+  position: sticky;
+  top: 0;
+}
 .sidebar {
   margin-bottom: 20px;
   padding: 15px;
@@ -187,8 +226,8 @@ export default {
     display: flex;
     flex-wrap: wrap;
     .tag {
-      margin: 0 10px 10px 0;
-      padding: 3px 8px;
+      margin: 3px 5px;
+      padding: 3px;
       background-color: #fff;
       border: 1px solid #ccc;
       border-radius: 3px;
@@ -280,9 +319,8 @@ export default {
 .site {
   display: flex;
   flex-wrap: wrap;
-  li {
+  > li {
     width: 50%;
-    letter-spacing: 3px;
   }
 }
 </style>

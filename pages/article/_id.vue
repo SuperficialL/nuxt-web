@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="article-page">
     <section class="article-wrap">
       <article class="article">
         <h3 class="title">{{ article.title }}</h3>
@@ -69,7 +69,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.content {
+.article-page {
   .article-wrap {
     .article {
       padding: 15px;

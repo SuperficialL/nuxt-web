@@ -85,9 +85,20 @@ export default {
   },
 }
 </script>
-
+<style lang="scss">
+.carousel {
+  .swiper-pagination {
+    .swiper-pagination-bullet {
+      &.swiper-pagination-bullet-active {
+        width: 2rem;
+        border-radius: 10px;
+      }
+    }
+  }
+}
+</style>
 <style lang="scss" scoped>
-$pc-carrousel-height: 320px;
+$pc-carrousel-height: 309px;
 $mobile-carrousel-height: 100vw * 0.36;
 
 .index-page {
@@ -101,6 +112,11 @@ $mobile-carrousel-height: 100vw * 0.36;
       overflow: hidden;
       margin: 0 5px 20px;
       height: $mobile-carrousel-height;
+    }
+    img {
+      width: 100%;
+      height: auto;
+      overflow: hidden;
     }
   }
   .article-wrapper {

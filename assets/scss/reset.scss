@@ -1,9 +1,15 @@
 /*
  * @Author: Superficial
  * @Date: 2019-12-17 14:30:56
- * @LastEditTime: 2020-07-20 20:15:48
+ * @LastEditTime: 2020-07-27 15:32:57
  * @Description: 浏览器样式初始化
  */
+
+ * {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+ }
 
 body {
   font-family: Arial, Helvetica, sans-serif;
