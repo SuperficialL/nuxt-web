@@ -35,9 +35,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.app-main {
-  height: 100vh;
-}
 main {
   min-height: calc(100vh - 60px - 60px - 20px * 2);
   margin: 20px 0;

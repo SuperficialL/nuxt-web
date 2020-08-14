@@ -103,8 +103,8 @@ export default {
   },
   proxy: {
     '/api': {
-      // target: 'http://49.233.165.116:3000',
-      target: 'http://127.0.0.1:3000', // 网站请求数据
+      target: 'http://49.233.165.116:3000',
+      // target: 'http://127.0.0.1:3000', // 网站请求数据
       changeOrigin: true,
     },
     '/uploads': {
