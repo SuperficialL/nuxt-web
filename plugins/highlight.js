@@ -1,11 +1,10 @@
 /*
  * @Author: SuperficialL
  * @Date: 2020-07-04 10:33:13
- * @LastEditTime: 2020-07-04 11:32:21
+ * @LastEditTime: 2020-08-06 13:28:57
  * @Description: 代码高亮
  */
 
-// const Hljs = require('highlight.js/lib/highlight')
 import Hljs from 'highlight.js'
 Hljs.registerLanguage('css', require('highlight.js/lib/languages/css'))
 Hljs.registerLanguage('sql', require('highlight.js/lib/languages/sql'))

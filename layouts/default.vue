@@ -1,5 +1,5 @@
 <template>
-  <div v-cloak id="app" @scroll="scroll($event)">
+  <div v-cloak id="app" :class="theme">
     <pc-main-view v-if="!isMobile" />
     <mobile-main-view v-else />
   </div>
@@ -18,10 +18,8 @@ export default {
     isMobile() {
       return this.$store.state.global.isMobile
     },
-  },
-  methods: {
-    scroll(ev) {
-      console.log(ev)
+    theme() {
+      return this.$store.state.global.theme
     },
   },
 }
@@ -29,7 +27,8 @@ export default {
 
 <style lang="scss" scoped>
 #app {
-  color: #000;
+  color: $text;
+  background-color: $body-bg;
   &[v-cloak] {
     color: transparent;
     -webkit-text-fill-color: transparent;

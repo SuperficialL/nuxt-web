@@ -23,20 +23,19 @@ export default {
       { charset: 'utf-8' },
       {
         name: 'viewport',
-        content:
-          'width=device-width, initial-scale=1,maximum-scale=1.0, user-scalable=0',
+        content: 'width=device-width, initial-scale=1,user-scalable=0',
       },
       {
         hid: 'description',
         name: 'description',
-        content: process.env.npm_package_description || '',
+        content: process.env.npm_package_description,
       },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {
         rel: 'stylesheet',
-        href: '//at.alicdn.com/t/font_656382_4hmwkethb4.css',
+        href: '//at.alicdn.com/t/font_656382_hx08jbpfs0v.css',
       },
     ],
   },
@@ -50,22 +49,25 @@ export default {
   /*
    ** Customize the progress-bar color
    */
-  loading: './components/Loading',
+  loading: {
+    color: '#0088f5',
+  },
   /*
    ** Global CSS
    */
   css: [
-    'element-ui/lib/theme-chalk/index.css',
     'swiper/css/swiper.css',
     'highlight.js/scss/atom-one-dark.scss',
-    '@/assets/scss/index.scss',
+    '@/assets/scss/app.scss',
   ],
+  styleResources: {
+    scss: ['~/assets/scss/variables.scss'],
+  },
   /*
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
   plugins: [
-    { src: '@/plugins/element-ui', ssr: true },
     { src: '@/plugins/swiper-plugin', ssr: true },
     { src: '@/plugins/filters', ssr: true },
     { src: '@/plugins/marked' },
@@ -89,6 +91,7 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/style-resources',
     '@/plugins/filters',
   ],
   /*
@@ -109,24 +112,35 @@ export default {
       changeOrigin: true,
     },
   },
+  cache: {
+    max: 100,
+    maxAge: 1000 * 60 * 15,
+  },
   /*
    ** Build configuration
    ** See https://nuxtjs.org/api/configuration-build/
    */
   build: {
-    transpile: [/^element-ui/],
+    analyze: process.argv.join('').includes('analyze'),
+    extractCSS: true,
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          styles: {
+            name: 'styles',
+            test: /\.(css|vue|scss)$/,
+            chunks: 'all',
+            enforce: true,
+          },
+        },
+      },
+    },
     /*
      ** You can extend webpack config here
      */
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {
-        config.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /(node_modules)/,
-        })
       }
     },
   },

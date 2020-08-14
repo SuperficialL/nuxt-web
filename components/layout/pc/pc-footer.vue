@@ -20,16 +20,17 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 export default {
-  name: 'Footer',
+  name: 'PCFooter',
   data() {
     return {
       toTopShow: false,
     }
   },
   computed: {
-    ...mapState('link', ['links']),
+    links() {
+      return this.$store.state.link.data
+    },
   },
   mounted() {
     this.$nextTick(() => {

@@ -1,0 +1,15 @@
+.page-enter-active, .page-leave-active {
+  transition: opacity .25s;
+}
+.page-enter, .page-leave-active {
+  opacity: 0;
+}
+
+.module-enter-active,
+.module-leave-active {
+  transition: opacity 0.5s;
+}
+.module-enter,
+.module-leave-active {
+  opacity: 0;
+}

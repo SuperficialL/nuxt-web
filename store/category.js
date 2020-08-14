@@ -1,14 +1,14 @@
 /*
  * @Author: SuperficialL
  * @Date: 2020-07-06 00:41:27
- * @LastEditTime: 2020-07-27 15:53:25
+ * @LastEditTime: 2020-08-12 21:34:04
  * @Description: 分类数据
  */
 
 export const state = () => {
   return {
     fetching: false,
-    categories: [],
+    data: [],
   }
 }
 
@@ -17,7 +17,7 @@ export const mutations = {
     state.fetching = action
   },
   updateListData(state, action) {
-    state.categories = action.result.data
+    state.data = action.result.data
   },
 }
 

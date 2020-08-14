@@ -49,7 +49,11 @@ export default {
     ])
   },
   computed: {
-    ...mapState('article', ['article']),
+    ...mapState({
+      article: (state) => state.article.detail.data,
+      isFetching: (state) => state.article.detail.fetching,
+      isMobile: (state) => state.global.isMobile,
+    }),
     opinios() {
       return ''
     },

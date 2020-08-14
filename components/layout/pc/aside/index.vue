@@ -2,18 +2,13 @@
   <aside ref="aside" class="sidebar-wrapper">
     <div class="sidebar">
       <div class="search-wrapper">
-        <el-input
+        <input
           v-model="keywords"
           size="mini"
           placeholder="请输入关键字"
-          @keyup.enter.native="search"
-        >
-          <i
-            slot="suffix"
-            class="el-input__icon el-icon-search search"
-            @click="search"
-          />
-        </el-input>
+          @keyup.enter="search"
+        />
+        <i @click="search" />
       </div>
     </div>
 
@@ -24,8 +19,8 @@
         </h4>
       </div>
       <div class="sidebar-content">
-        <ul v-if="hotArticles.length" class="recent-comment">
-          <li v-for="(article, index) in hotArticles" :key="index" class="item">
+        <ul v-if="hotList" class="recent-comment">
+          <li v-for="(article, index) in hotList" :key="index" class="item">
             <nuxt-link
               :to="{
                 name: 'article-id',
@@ -94,10 +89,10 @@
             <nuxt-link
               :to="{
                 name: 'tag-slug',
-                params: { slug: tag.slug, title: tag.title },
+                params: { slug: tag.slug, title: tag.name },
               }"
             >
-              {{ tag.title }}
+              {{ tag.name }}
             </nuxt-link>
           </li>
         </ul>
@@ -140,7 +135,7 @@
 <script>
 import { mapState } from 'vuex'
 import { getGravatarByEmail } from '@/utils'
-import { isBrowser } from '~/env'
+// import { isBrowser } from '~/env'
 
 export default {
   name: 'Sidebar',
@@ -150,17 +145,19 @@ export default {
     }
   },
   computed: {
-    ...mapState('article', ['hotArticles']),
+    ...mapState('article', ['hotList']),
     ...mapState('comment', ['hotComments']),
-    ...mapState('tag', ['tags']),
     ...mapState('global', ['statistic']),
+    tags() {
+      return this.$store.state.tag.data
+    },
   },
   mounted() {
-    if (isBrowser) {
-      this.$nextTick(() => {
-        document.addEventListener('scroll', this.handleStickyStateChange)
-      })
-    }
+    // if (isBrowser) {
+    //   this.$nextTick(() => {
+    //     document.addEventListener('scroll', this.handleStickyStateChange)
+    //   })
+    // }
   },
   beforeDestroy() {},
 
@@ -169,16 +166,12 @@ export default {
       return getGravatarByEmail(email)
     },
     // 查询
-    search() {
-      this.$message.success('查询功能博主正在开发中!')
-    },
+    search() {},
     handleStickyStateChange(event) {
       // workaround: when (main container height >= aside height) & isSticky -> render sticky ad
       const asideElementHeight = this.$refs.aside.clientHeight
-      console.log(asideElementHeight, 'asideElementHeight')
       const mainContentElementHeight = document.getElementById('content')
         .children[0].clientHeight
-      console.log(mainContentElementHeight, 'mainContentElementHeight')
       const isFixed = mainContentElementHeight >= asideElementHeight
       if (isFixed) {
       }
@@ -197,6 +190,11 @@ export default {
   padding: 15px;
   border-radius: 6px;
   background-color: #fff;
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
   &:last-child {
     margin-bottom: 0;
   }

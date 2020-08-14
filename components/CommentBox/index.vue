@@ -1,5 +1,5 @@
 <template>
-  <section class="comment-wrap">
+  <section class="comment-wrap" :class="{ mobile: isMobile }">
     <div class="comment-title">
       <div class="count">
         <strong>{{ comments.pagination.total || 0 }}</strong>
@@ -12,29 +12,90 @@
       </div>
     </div>
     <div id="comment-box" class="comment-form">
-      <div class="comment-user">
-        <div class="name">
-          <input v-model="user.name" type="text" placeholder="昵称*" />
+      <!-- 用户设置部分 -->
+      <transition name="module" mode="out-in">
+        <div
+          v-if="!userCacheMode || userCacheEditing"
+          key="edit"
+          class="comment-user"
+        >
+          <div class="name">
+            <input v-model="user.name" type="text" placeholder="昵称*" />
+          </div>
+          <div class="email">
+            <input
+              v-model="user.email"
+              type="email"
+              placeholder="邮箱*"
+              @blur="updateUserGravatar"
+            />
+          </div>
+          <div class="site">
+            <input v-model="user.site" type="url" placeholder="站点" />
+          </div>
+          <div v-if="userCacheEditing" class="save">
+            <button type="submit" @click="updateUserCache($event)">
+              <i class="iconfont icon-confirm"></i>
+            </button>
+          </div>
         </div>
-        <div class="email">
-          <input
-            v-model="user.email"
-            type="email"
-            placeholder="邮箱*"
-            @blur="updateUserGravatar"
-          />
+        <div
+          v-else-if="userCacheMode && !userCacheEditing"
+          key="user"
+          class="comment-user"
+        >
+          <div class="edit">
+            <strong class="name">{{ user.name }}</strong>
+            <a href class="setting" @click.stop.prevent>
+              <i class="iconfont icon-xitong1"></i>
+              <span class="account-setting">设置账号信息</span>
+              <ul class="user-tool">
+                <li @click.stop.prevent="userCacheEditing = true">编辑信息</li>
+                <li @click.stop.prevent="claerUserCache">清空信息</li>
+              </ul>
+            </a>
+          </div>
         </div>
-        <div class="site">
-          <input v-model="user.site" type="url" placeholder="站点" />
-        </div>
-      </div>
+      </transition>
+
+      <!-- 编辑器 -->
       <div class="comment-editor">
-        <div class="user">
+        <div v-if="!isMobile" class="user">
           <div class="avatar">
             <img :src="humanizeGravatarUrl(user.gravatar)" alt="匿名用户" />
           </div>
         </div>
         <div class="editor">
+          <transition name="module">
+            <div v-if="!!parent" key="reply" class="will-reply">
+              <div class="reply-user">
+                <span>
+                  <span>回复</span>
+                  <a
+                    href
+                    @click.stop.prevent="
+                      toSomeAnchorById(`comment-item-${replyCommentSlef.id}`)
+                    "
+                  >
+                    <strong>
+                      #{{ replyCommentSlef.id }} @{{
+                        replyCommentSlef.author.name
+                      }}：
+                    </strong>
+                  </a>
+                </span>
+                <!-- <a
+                  href
+                  class="cancel iconfont icon-cancel"
+                  @click.stop.prevent="cancelCommentReply"
+                ></a> -->
+              </div>
+              <div
+                class="reply-preview"
+                v-html="marked(replyCommentSlef.content)"
+              ></div>
+            </div>
+          </transition>
           <div class="markdown">
             <div
               ref="markdownInput"
@@ -46,6 +107,7 @@
           </div>
         </div>
       </div>
+
       <div class="comment-btn">
         <button type="submit" class="submit-btn" @click="submitComment">
           <i v-show="fetching" class="iconfont icon-loading"></i>
@@ -53,6 +115,8 @@
         </button>
       </div>
     </div>
+
+    <!-- 评论列表 -->
     <ul class="comment-list">
       <li
         v-for="comment in comments.data"
@@ -60,7 +124,7 @@
         :key="comment.id"
         class="comment-item"
       >
-        <div class="comment-avatar">
+        <div v-if="!isMobile" class="comment-avatar">
           <img
             :src="
               humanizeGravatarUrl(getGravatarUrlByEmail(comment.author.email))
@@ -78,7 +142,7 @@
               {{ comment.author.name }}
             </a>
             <comment-ua v-if="comment.agent" :ua="comment.agent" />
-            <span v-if="comment.ip_location" class="location">
+            <span v-if="comment.ip_location && !isMobile" class="location">
               <span>{{ comment.ip_location.country }}</span>
               <span
                 v-if="comment.ip_location.country && comment.ip_location.city"
@@ -88,7 +152,25 @@
             </span>
             <span class="floor">#{{ comment.id }}</span>
           </div>
-          <div class="comment-content">{{ comment.content }}</div>
+          <div class="comment-content">
+            <p v-if="!!comment.parent" class="reply">
+              <span>回复</span>
+              <span>&nbsp;</span>
+              <a
+                href
+                @click.stop.prevent="
+                  toSomeAnchorById(`comment-item-${comment.parent}`)
+                "
+              >
+                <span>#{{ comment.parent }}&nbsp;</span>
+                <strong v-if="fondReplyParent(comment.parent)"
+                  >@{{ fondReplyParent(comment.parent) }}</strong
+                >
+              </a>
+              <span>：</span>
+            </p>
+            <div v-html="marked(comment.content)"></div>
+          </div>
           <div class="comment-footer">
             <span class="created-time">
               {{ comment.created_time | dateFormat }}
@@ -115,9 +197,10 @@
 
 <script>
 import { mapState } from 'vuex'
-import CommentUa from './components/ua'
-import { getJSONStorageReader } from '@/services/localStorage'
 import { getGravatarByEmail, scrollTo } from '@/utils'
+import { getJSONStorageReader } from '@/services/localStorage'
+import CommentUa from '@/components/CommentBox/components/ua'
+import marked from '~/plugins/marked'
 const localUser = getJSONStorageReader('user')
 const localHistoryLikes = getJSONStorageReader('user_like_history')
 
@@ -142,8 +225,10 @@ export default {
   },
   data() {
     return {
+      userCacheMode: false,
+      userCacheEditing: false,
       // 父级评论
-      parent: null,
+      parent: 0,
       user: {
         name: '',
         email: '',
@@ -163,6 +248,14 @@ export default {
     isLikeArticle() {
       return this.historyLikes.pages.includes(this.articleId)
     },
+    isMobile() {
+      return this.$store.state.global.isMobile
+    },
+    replyCommentSlef() {
+      return this.comments.data.find((comment) =>
+        Object.is(comment.id, this.parent)
+      )
+    },
   },
   mounted() {
     const isBrowser = process.browser
@@ -181,7 +274,7 @@ export default {
       if (user) {
         this.user = user
         // this.upadteUserGravatar()
-        // this.userCacheMode = true
+        this.userCacheMode = true
       }
       if (historyLikes) {
         this.historyLikes = historyLikes
@@ -201,6 +294,35 @@ export default {
     // 点击用户
     clickUser(event, user) {
       if (!user.site) event.preventDefault()
+    },
+
+    // 更新用户数据
+    updateUserCache(event) {
+      event.preventDefault()
+      if (!this.user.name) {
+        return alert('名字?')
+      }
+      if (!this.user.email) {
+        return alert('邮箱?')
+      }
+      if (!emailRegex.test(this.user.email)) {
+        return alert('邮箱格式错误~')
+      }
+      if (this.user.site && !urlRegex.test(this.user.site)) {
+        return alert('网站格式错误~')
+      }
+      localUser.set(this.user)
+      this.userCacheEditing = false
+    },
+
+    // 清空用户数据
+    claerUserCache() {
+      this.userCacheMode = false
+      this.userCacheEditing = false
+      localUser.remove()
+      Object.keys(this.user).forEach((key) => {
+        this.user[key] = ''
+      })
     },
 
     // 清空评论内容
@@ -238,22 +360,22 @@ export default {
     // 提交评论
     submitComment() {
       if (!this.user.name) {
-        return this.$message.warning(`名字?`)
+        return alert('名字？')
       }
       if (!this.user.email) {
-        return this.$message.warning(`邮箱?`)
+        return alert('邮箱？')
       }
       if (!emailRegex.test(this.user.email)) {
-        return this.$message.warning(`邮箱格式错误!`)
+        return alert('邮箱格式错误？')
       }
       if (this.user.site && !urlRegex.test(this.user.site)) {
-        return this.$message.warning(`站点地址错误!`)
+        return alert('站点地址错误？')
       }
       if (
         !this.comemntContentText ||
         !this.comemntContentText.replace(/\s/g, '')
       ) {
-        return this.$message.warning(`内容？`)
+        return alert('内容？')
       }
       if (!this.user.site) {
         Reflect.deleteProperty(this.user, 'site')
@@ -268,15 +390,12 @@ export default {
         })
         .then((res) => {
           this.clearCommentContent()
+          this.userCacheMode = true
           localUser.set(this.user)
         })
         .catch((err) => {
-          window.console.log(err, '评论错误')
-          this.$message({
-            type: 'error',
-            message: '评论发布失败~',
-            showClose: true,
-          })
+          console.log(err, '评论错误')
+          alert('评论发布失败~')
         })
     },
 
@@ -297,6 +416,19 @@ export default {
           this.$refs.markdownInput.focus()
         }
       }
+    },
+
+    // 找到回复来源
+    fondReplyParent(commentId) {
+      const parent = this.comments.data.find((comment) =>
+        Object.is(comment.id, commentId)
+      )
+      return parent ? parent.author.name : null
+    },
+
+    // markdown解析服务
+    marked(content) {
+      return marked(content, null, false)
     },
 
     // 点赞文章
@@ -351,6 +483,35 @@ export default {
   padding: 15px;
   background-color: #fff;
   border-radius: 6px;
+  &.mobile {
+    > .comment-form {
+      .comment-user {
+        flex-direction: column;
+        height: auto;
+        > .name,
+        > .email,
+        > .site,
+        > .save {
+          width: 80%;
+          margin-left: 0;
+          margin-right: 0;
+          margin-bottom: 8px;
+        }
+        > .save {
+          width: 30%;
+          margin-bottom: 0;
+        }
+      }
+    }
+    > .comment-list {
+      > .comment-item {
+        padding: 0;
+        > .comment-body {
+          padding-left: 8px;
+        }
+      }
+    }
+  }
   .comment-title {
     display: flex;
     padding-bottom: 1rem;
@@ -382,22 +543,88 @@ export default {
   .comment-form {
     .comment-user {
       margin: 10px 0;
+      width: 100%;
+      height: 2em;
+      line-height: 2em;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
+      margin-bottom: 1rem;
+      padding-left: 5.2rem;
       .name,
       .email,
       .site {
-        position: relative;
-        width: 33%;
-        padding: 6px 0;
+        flex-grow: 1;
+        margin-right: 10px;
         input {
           width: 100%;
           height: 100%;
-          padding: 5px;
           background-color: #f0f2f7;
           border-radius: 3px;
+        }
+      }
+      .site {
+        margin-right: 0;
+      }
+      .save {
+        width: 40px;
+        margin-left: 10px;
+        text-align: center;
+        button {
+          width: 100%;
+          height: inherit;
+          background-color: $module-hover-bg;
+          &:hover {
+            background-color: $module-hover-bg-darken-10;
+          }
+        }
+      }
+      .edit {
+        position: relative;
+        flex-grow: 1;
+        text-align: right;
+        line-height: 30px;
+        > .setting {
+          font-size: $font-size-h6;
+          margin-left: $gap;
+          display: inline-block;
+          position: relative;
+
+          &:hover {
+            > .user-tool {
+              display: block;
+            }
+          }
+
+          > .iconfont {
+            margin-right: 8px;
+            font-size: 1em;
+            vertical-align: baseline;
+          }
+
+          > .account-setting {
+            text-transform: capitalize;
+          }
+
+          > .user-tool {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 2em;
+            margin: 0;
+            padding: 0;
+            padding-top: 0.5rem;
+            list-style-type: square;
+            z-index: 99;
+            color: $text-reversal;
+
+            > li {
+              padding: 0 1rem;
+              background-color: rgba(green, 0.5);
+            }
+
+            > li:hover {
+              background-color: rgba(green, 0.8);
+            }
+          }
         }
       }
     }
@@ -415,6 +642,34 @@ export default {
       .editor {
         flex-grow: 1;
         overflow: hidden;
+        .will-reply {
+          margin-bottom: 10px;
+          > .reply-user {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: $gap;
+            padding: 0 $gap;
+            height: 2.6em;
+            line-height: 2.6em;
+            background-color: $module-hover-bg;
+
+            &:hover {
+              background-color: $module-hover-bg-darken-10;
+            }
+          }
+
+          > .reply-preview {
+            max-height: 10em;
+            overflow: auto;
+            padding: $gap;
+
+            background-color: $module-hover-bg;
+
+            &:hover {
+              background-color: $module-hover-bg-darken-10;
+            }
+          }
+        }
         .markdown {
           position: relative;
           .markdown-input {
@@ -427,9 +682,12 @@ export default {
             line-height: 1.8;
             transition: background-color 0.1s;
             background-color: hsla(0, 0%, 67.5%, 0.5);
-            &:before {
+            &:empty:before {
               content: attr(placeholder);
               color: rgba(0, 0, 0, 0.38);
+            }
+            &:focus {
+              content: none;
             }
           }
         }
@@ -457,6 +715,7 @@ export default {
     }
   }
   .comment-list {
+    list-style: none;
     background-color: #fff;
     .comment-item {
       position: relative;
@@ -511,10 +770,10 @@ export default {
           }
           .floor {
             float: right;
-            line-height: 2;
+            line-height: 2rem;
             color: rgba(0, 0, 0, 0.26);
             font-size: 12.432px;
-            font-weight: 900;
+            font-weight: bolder;
           }
         }
         .comment-content {

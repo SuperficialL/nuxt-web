@@ -24,6 +24,7 @@ module.exports = {
     //     ignoreGlobals: true,
     //   },
     // ],
+    'vue/no-v-html': 0,
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
   },
 }

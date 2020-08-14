@@ -1,14 +1,14 @@
 /*
  * @Author: SuperficialL
  * @Date: 2020-07-04 23:06:58
- * @LastEditTime: 2020-07-06 01:02:15
+ * @LastEditTime: 2020-08-12 22:43:59
  * @Description: 标签数据
  */
 
 export const state = () => {
   return {
     fetching: false,
-    tags: [],
+    data: [],
   }
 }
 
@@ -17,7 +17,7 @@ export const mutations = {
     state.fetching = action
   },
   updateListData(state, action) {
-    state.tags = action.result.data
+    state.data = action.result.data
   },
 }
 
@@ -25,8 +25,8 @@ export const actions = {
   fetchList({ commit }, params) {
     return this.$axios
       .$get('/api/tags', { params })
-      .then((response) => {
-        commit('updateListData', response)
+      .then((res) => {
+        commit('updateListData', res)
       })
       .catch((err) => {
         return Promise.reject(err)

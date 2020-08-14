@@ -30,11 +30,12 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 export default {
   name: 'Nav',
   computed: {
-    ...mapState('category', ['categories']),
+    categories() {
+      return this.$store.state.category.data
+    },
   },
 }
 </script>

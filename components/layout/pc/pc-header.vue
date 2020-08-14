@@ -3,7 +3,7 @@
     <div class="wrap">
       <h1 class="logo">
         <nuxt-link to="/">
-          SuperficialL Blog
+          Superficial
         </nuxt-link>
       </h1>
       <nav class="nav-list">
@@ -37,11 +37,12 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 export default {
-  name: 'Header',
+  name: 'PCHeader',
   computed: {
-    ...mapState('category', ['categories']),
+    categories() {
+      return this.$store.state.category.data
+    },
   },
 }
 </script>

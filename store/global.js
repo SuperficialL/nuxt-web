@@ -1,12 +1,15 @@
 /*
  * @Author: Superficial
  * @Date: 2020-07-19 16:23:49
- * @LastEditTime: 2020-07-27 16:50:34
+ * @LastEditTime: 2020-08-09 12:11:06
  * @Description: 全局配置
  */
 
 export const state = () => {
   return {
+    // 主题
+    theme: 'default',
+
     // ua
     userAgent: '',
 
@@ -40,6 +43,11 @@ export const getters = {
 }
 
 export const mutations = {
+  // 设置主题
+  updateTheme(state, action) {
+    state.theme = action
+  },
+
   // 设置UA
   updateUserAgent(state, action) {
     state.userAgent = action

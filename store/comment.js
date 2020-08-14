@@ -1,7 +1,7 @@
 /*
  * @Author: SuperficialL
  * @Date: 2020-07-06 01:04:33
- * @LastEditTime: 2020-07-27 14:58:04
+ * @LastEditTime: 2020-08-13 22:13:34
  * @Description: 评论数据
  */
 
@@ -41,7 +41,7 @@ export const mutations = {
   // 更新评论列表
   updateListNewItemData(state, res) {
     state.comments.pagination.total += 1
-    state.comments.data.push(res.result)
+    state.comments.data.unshift(res.result)
   },
 
   // 喜欢某条评论

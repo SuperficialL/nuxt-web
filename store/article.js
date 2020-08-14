@@ -1,51 +1,74 @@
 /*
  * @Author: SuperficialL
  * @Date: 2020-07-03 01:09:26
- * @LastEditTime: 2020-07-27 17:47:58
+ * @LastEditTime: 2020-08-13 15:41:27
  * @Description: 文章数据
  */
-export const state = () => {
+import Vue from 'vue'
+import { isBrowser } from '~/env'
+import { scrollTo, Easing } from '~/utils'
+
+const getDefaultListData = () => {
   return {
-    article: {},
-    articles: {
-      data: [],
-      isFetching: false,
-    },
-    params: {},
-    hotArticles: [],
+    data: [],
     pagination: {},
   }
 }
 
+export const state = () => {
+  return {
+    list: {
+      fetching: false,
+      data: getDefaultListData(),
+    },
+    hotList: [],
+    detail: {
+      fetching: false,
+      data: {},
+    },
+  }
+}
+
 export const mutations = {
-  // 更新列表
-  updateArticles(state, res) {
-    state.articles.data = res.data
+  // 文章列表
+  updateListFetching(state, action) {
+    state.list.fetching = action
   },
 
-  updateParams(state, params) {
-    state.params = params
+  updateListData(state, data) {
+    state.list.data = data
   },
 
-  // 更新热门列表
-  updateHotArticles(state, res) {
-    state.hotArticles = res.data
+  updateExistingListData(state, res) {
+    state.list.data.data.push(...res.data)
+    state.list.data.pagination = res.pagination
   },
 
-  // 更新分页
-  updatePagination(state, res) {
-    state.pagination = res.pagination
+  // 热门文章
+  updateHotListData(state, action) {
+    state.hotList = action.result.data
   },
 
-  // 更新详情
-  updateDetailData(state, res) {
-    state.article = res
+  // 文章详情
+  updateDetailFetching(state, action) {
+    state.detail.fetching = action
+  },
+  updateDetailData(state, action) {
+    state.detail.data = action
+  },
+
+  // 更新文章阅读全文状态
+  updateDetailRenderedState(state, action) {
+    Vue.set(
+      state.detail.data,
+      'isRenderedFullContent',
+      action == null ? true : action
+    )
   },
 
   // 喜欢某篇文章
   updateLikesIncrement(state) {
-    console.log(state, 'state')
-    const article = state.article
+    const article = state.detail.data
     article && article.likes++
   },
 }
@@ -53,24 +76,39 @@ export const mutations = {
 export const actions = {
   // 获取文章列表
   fetchList({ commit }, params = {}) {
+    const isRestart = !params.page || params.page === 1
+    const isLoadMore = params.page && params.page > 1
+
+    // 清空已有数据
+    isRestart && commit('updateListData', getDefaultListData())
+    commit('updateListFetching', true)
+
     return this.$axios
       .$get('/api/articles', { params })
       .then((res) => {
-        commit('updateParams', params)
-        commit('updateArticles', res.result)
-        commit('updatePagination', res.result)
+        commit('updateListFetching', false)
+        isLoadMore
+          ? commit('updateExistingListData', res.result)
+          : commit('updateListData', res.result)
+        if (isLoadMore && isBrowser) {
+          Vue.nextTick(() => {
+            scrollTo(window.scrollY + window.innerHeight * 0.8, 300, {
+              easing: Easing['ease-in'],
+            })
+          })
+        }
       })
-      .catch((err) => {
-        return Promise.reject(err)
+      .catch(() => {
+        commit('updateListFetching', false)
       })
   },
 
   // 获取热门文章列表
   fetchHotList({ commit }) {
     return this.$axios
-      .$get('/api/articles', { params: { hot: 1 } })
+      .$get('/api/articles', { params: { is_top: 1 } })
       .then((res) => {
-        commit('updateHotArticles', res.result)
+        commit('updateHotListData', res)
       })
       .catch((err) => {
         return Promise.reject(err)

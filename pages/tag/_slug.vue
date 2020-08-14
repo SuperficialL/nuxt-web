@@ -1,20 +1,11 @@
 <template>
-  <div class="container">
-    <div class="breadcrumb">
-      <div class="tag-title">
-        <h4>当前分类: {{ params.tag_slug }}</h4>
-        <span>共 {{ pagination.total || 0 }} 篇</span>
-      </div>
-    </div>
-    <section class="article-wrapper">
-      <article-list :articles="articles.data" />
-    </section>
+  <div class="tag-page">
+    <article-list :article="article" />
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import ArticleList from '@/components/ArticleList'
+import ArticleList from '@/components/archive/list'
 
 export default {
   name: 'Tag',
@@ -22,32 +13,17 @@ export default {
     ArticleList,
   },
   fetch({ store, params }) {
-    return store.dispatch('article/fetchList', {
-      tag_slug: params.slug,
-    })
+    return store.dispatch('article/fetchList', params)
   },
   computed: {
-    ...mapState('article', ['articles', 'params', 'pagination']),
+    article() {
+      return this.$store.state.article.list
+    },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.container {
-  .tag-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #fff;
-    margin-bottom: 20px;
-    padding: 10px;
-    border-radius: 6px;
-  }
-  .article-wrapper {
-    padding: 8px 15px;
-    background-color: #fff;
-    border-radius: 6px;
-    overflow: hidden;
-  }
+.tag-page {
 }
 </style>

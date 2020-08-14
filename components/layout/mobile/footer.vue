@@ -15,16 +15,17 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 export default {
-  name: 'Footer',
+  name: 'MobileFooter',
   data() {
     return {
       toTopShow: false,
     }
   },
   computed: {
-    ...mapState('link', ['links']),
+    links() {
+      return this.$store.state.link.data
+    },
     year() {
       return new Date().getFullYear()
     },
