@@ -9,6 +9,7 @@
         v-for="articleItem in article.data.data"
         :key="articleItem.id"
         class="article"
+        :class="{ mobile: isMobile }"
       >
         <nuxt-link
           class="article-thumbnail"
@@ -52,7 +53,7 @@
               </span>
               <span>
                 <i class="iconfont icon-dianzan" />
-                {{ article.likes }}
+                {{ articleItem.likes }}
               </span>
             </div>
             <nuxt-link

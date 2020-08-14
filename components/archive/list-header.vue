@@ -112,28 +112,6 @@ export default {
 <style lang="scss" scoped>
 .header-box {
   position: relative;
-  // padding-bottom: 8px 0;
-  // display: flex;
-  // flex-direction: column;
-  // height: 30px;
-  // color: $text-reversal;
-
-  &.mobile {
-    height: 12rem;
-
-    > .logo-box {
-      height: 8.6rem;
-
-      > .logo {
-        line-height: 8.6rem;
-
-        > .iconfont {
-          font-size: 5em;
-        }
-      }
-    }
-  }
-
   @keyframes logo-animate {
     0% {
       opacity: 1;

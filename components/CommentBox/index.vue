@@ -84,11 +84,11 @@
                     </strong>
                   </a>
                 </span>
-                <!-- <a
+                <a
                   href
-                  class="cancel iconfont icon-cancel"
+                  class="iconfont icon-close"
                   @click.stop.prevent="cancelCommentReply"
-                ></a> -->
+                ></a>
               </div>
               <div
                 class="reply-preview"
@@ -155,7 +155,6 @@
           <div class="comment-content">
             <p v-if="!!comment.parent" class="reply">
               <span>回复</span>
-              <span>&nbsp;</span>
               <a
                 href
                 @click.stop.prevent="
@@ -416,6 +415,11 @@ export default {
           this.$refs.markdownInput.focus()
         }
       }
+    },
+
+    // 取消回复
+    cancelCommentReply() {
+      this.parent = 0
     },
 
     // 找到回复来源
