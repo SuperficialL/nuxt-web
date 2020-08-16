@@ -74,18 +74,6 @@ export default {
     { src: '@/plugins/highlight' },
   ],
   /*
-   ** Auto import components
-   ** See https://nuxtjs.org/api/configuration-components
-   */
-  components: true,
-  /*
-   ** Nuxt.js dev-modules
-   */
-  buildModules: [
-    // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module',
-  ],
-  /*
    ** Nuxt.js modules
    */
   modules: [

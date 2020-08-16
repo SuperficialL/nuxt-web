@@ -17,27 +17,31 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.11.0",
+    "@nuxtjs/style-resources": "^1.0.0",
     "bezier-easing": "^2.1.0",
     "gravatar": "^1.8.0",
     "highlight.js": "^10.1.1",
     "js-cookie": "^2.2.1",
     "marked": "^1.1.0",
-    "node-sass": "^4.14.1",
     "nuxt": "^2.13.0",
-    "sass-loader": "^9.0.0",
     "swiper": "^5.4.5",
     "ua-parser-js": "^0.7.21",
     "vue-awesome-swiper": "^4.1.1"
   },
   "devDependencies": {
-    "@nuxtjs/eslint-config": "^3.0.0",
-    "@nuxtjs/eslint-module": "^2.0.0",
-    "@nuxtjs/style-resources": "^1.0.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.2.0",
     "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-nuxt": "^1.0.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-html": "^6.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "prettier": "^2.0.5"
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-vue": "^5.2.3",
+    "node-sass": "^4.14.1",
+    "prettier": "^2.0.5",
+    "sass-loader": "^9.0.0"
   }
 }
