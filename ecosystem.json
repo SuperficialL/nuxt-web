@@ -24,7 +24,7 @@
       "repo": "git@github.com:SuperficialL/nuxt-web.git",
       "ref": "origin/master",
       "path": "/srv/nuxt-web",
-      "post-deploy": "yarn  && yarn build",
+      "post-deploy": "yarn  && yarn build && pm2 startOrRestart ecosystem.json --env production",
       "pre-deploy-local": "echo Deploy Done!",
       "env": {
         "NODE_ENV": "production"
