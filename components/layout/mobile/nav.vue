@@ -14,8 +14,10 @@
         }"
         class="nav-item"
       >
-        <i class="iconfont" />
-        {{ item.name }}
+        <i class="iconfont" :class="item.icon" />
+        <span>
+          {{ item.name }}
+        </span>
       </nuxt-link>
       <nuxt-link to="/message" class="nav-item">
         <i class="iconfont icon-message" />

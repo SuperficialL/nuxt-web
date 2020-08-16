@@ -20,8 +20,10 @@
           }"
           class="nav-item"
         >
-          <i class="iconfont" />
-          {{ item.name }}
+          <i class="iconfont" :class="item.icon" />
+          <span>
+            {{ item.name }}
+          </span>
         </nuxt-link>
         <nuxt-link to="/message" class="nav-item">
           <i class="iconfont icon-message" />
@@ -75,6 +77,12 @@ export default {
         height: inherit;
         line-height: 60px;
         text-align: center;
+        .iconfont {
+          vertical-align: top;
+          // display: inline-block;
+        }
+        span {
+        }
         &:hover {
           color: #0088f5;
         }

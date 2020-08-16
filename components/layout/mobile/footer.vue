@@ -98,18 +98,23 @@ export default {
     right: 30px;
     bottom: 30px;
     z-index: 999;
+    border-radius: 50%;
     width: 32px;
-    color: #fff;
+    height: 32px;
+    line-height: 32px;
+    color: #ddd;
+    background-color: #fff;
+    text-align: center;
+    box-shadow: 0 0 10px 0 rgba(138, 141, 147, 0.6);
     cursor: pointer;
     transition: 0.7s;
     transform: translateX(100px);
-
+    overflow: hidden;
     &.show {
       transform: translateX(0);
     }
     i {
-      font-size: 30px;
-      color: #1890ff;
+      color: rgb(105, 111, 123);
     }
     &.active {
       right: 30px;

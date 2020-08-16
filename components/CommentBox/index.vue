@@ -408,11 +408,17 @@ export default {
     toSomeAnchorById(id) {
       const targetDom = document.getElementById(id)
       if (targetDom) {
-        const isToEditor = id === 'comment-box'
-        scrollTo(targetDom, 200, { offset: isToEditor ? -80 : -300 })
+        const isToEditor = Object.is(id, 'comment-box')
+        scrollTo(targetDom, 200, { offset: isToEditor ? -60 : -20 })
         // 如果是进入编辑模式，则需要激活光标
-        if (isToEditor && this.$refs.markdownInput) {
-          this.$refs.markdownInput.focus()
+        if (isToEditor) {
+          const p = this.$refs.markdownInput
+          const selObj = window.getSelection()
+          const r = document.createRange()
+          r.setStart(p, p.childElementCount)
+          r.setEnd(p, p.childElementCount)
+          selObj.removeAllRanges()
+          selObj.addRange(r)
         }
       }
     },

@@ -14,7 +14,7 @@
       </a>
     </div>
     <div class="back-to-top" :class="{ show: toTopShow }" @click="scrollToTop">
-      <i class="iconfont icon-back-top" />
+      <i class="iconfont icon-top" />
     </div>
   </footer>
 </template>
@@ -101,7 +101,12 @@ export default {
     bottom: 30px;
     z-index: 999;
     width: 32px;
+    height: 32px;
+    text-align: center;
+    line-height: 32px;
     color: #fff;
+    background-color: #fff;
+    box-shadow: 0 4px 10px 0 rgba(138, 141, 147, 0.2);
     cursor: pointer;
     transition: 0.7s;
     transform: translateX(100px);
@@ -110,7 +115,7 @@ export default {
       transform: translateX(0);
     }
     i {
-      font-size: 30px;
+      font-size: 22px;
       color: #1890ff;
     }
     &.active {
