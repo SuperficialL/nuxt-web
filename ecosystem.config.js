@@ -25,7 +25,7 @@ module.exports = {
       ref: 'origin/master',
       path: '/srv/nuxt-web',
       'post-deploy':
-        'yarn  && yarn build &&  pm2 startOrRestart ecosystem.config.js --env production',
+        'yarn  && yarn build',
       'pre-deploy-local': "echo 'Deploy Done!'",
       env: {
         NODE_ENV: 'production',
