@@ -45,10 +45,10 @@ export default {
       renderSwiper: true,
       transitioning: false,
       swiperOption: {
-        // autoplay: {
-        //   delay: 3500,
-        //   disableOnInteraction: false,
-        // },
+        autoplay: {
+          delay: 3500,
+          disableOnInteraction: false,
+        },
         pagination: {
           clickable: true,
           el: '.swiper-pagination',
