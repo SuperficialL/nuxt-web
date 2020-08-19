@@ -42,9 +42,12 @@ export default {
   validate({ params }) {
     return params.id && !isNaN(Number(params.id))
   },
-  fetch({ store, params }) {
+  fetch({ store, params, error }) {
     return Promise.all([
-      store.dispatch('article/getArticleDetail', params),
+      store
+        .dispatch('article/getArticleDetail', params)
+        .catch((err) => error({ statusCode: 404 })),
+      ,
       store.dispatch('comment/fetchList', { article_id: params.id }),
     ])
   },
