@@ -196,7 +196,7 @@ export default {
           display: -webkit-box;
           -webkit-line-clamp: 4;
           -webkit-box-orient: vertical;
-          text-indent: 20em;
+          text-indent: 2em;
           margin: 10px auto;
           height: 90px;
           overflow: hidden;

@@ -45,10 +45,10 @@ export default {
       renderSwiper: true,
       transitioning: false,
       swiperOption: {
-        autoplay: {
-          delay: 3500,
-          disableOnInteraction: false,
-        },
+        // autoplay: {
+        //   delay: 3500,
+        //   disableOnInteraction: false,
+        // },
         pagination: {
           clickable: true,
           el: '.swiper-pagination',
@@ -173,7 +173,6 @@ $mobile-carrousel-height: calc((100vw - 2rem) * 0.35);
           letter-spacing: 0.3px;
           max-width: 75%;
           // @include text-overflow;
-
           -webkit-background-clip: text;
           background: linear-gradient(
             90deg,
