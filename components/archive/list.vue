@@ -36,7 +36,7 @@
               {{ articleItem.title }}
             </nuxt-link>
           </h3>
-          <div class="summary">{{ articleItem.summary }}</div>
+          <div class="summary">{{ articleItem.description }}</div>
           <div class="article-info">
             <div class="article-meta">
               <span>
@@ -196,6 +196,7 @@ export default {
           display: -webkit-box;
           -webkit-line-clamp: 4;
           -webkit-box-orient: vertical;
+          text-indent: 20em;
           margin: 10px auto;
           height: 90px;
           overflow: hidden;
