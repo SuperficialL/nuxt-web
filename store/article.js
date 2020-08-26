@@ -1,7 +1,7 @@
 /*
  * @Author: SuperficialL
  * @Date: 2020-07-03 01:09:26
- * @LastEditTime: 2020-08-16 22:02:56
+ * @LastEditTime: 2020-08-26 23:42:39
  * @Description: 文章数据
  */
 import Vue from 'vue'
@@ -78,11 +78,9 @@ export const actions = {
   fetchList({ commit }, params = {}) {
     const isRestart = !params.page || params.page === 1
     const isLoadMore = params.page && params.page > 1
-
     // 清空已有数据
     isRestart && commit('updateListData', getDefaultListData())
     commit('updateListFetching', true)
-
     return this.$axios
       .$get('/api/articles', { params })
       .then((res) => {

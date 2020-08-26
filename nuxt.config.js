@@ -35,7 +35,7 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {
         rel: 'stylesheet',
-        href: '//at.alicdn.com/t/font_656382_a0uvh2d84aa.css',
+        href: '//at.alicdn.com/t/font_656382_uax4phygn6.css',
       },
     ],
   },
@@ -61,7 +61,7 @@ export default {
     '@/assets/scss/app.scss',
   ],
   styleResources: {
-    scss: ['~/assets/scss/variables.scss'],
+    scss: ['~/assets/scss/variables.scss', '~/assets/scss/mixins.scss'],
   },
   /*
    ** Plugins to load before mounting the App
@@ -91,8 +91,8 @@ export default {
   },
   proxy: {
     '/api': {
-      target: 'http://49.233.165.116:3000',
-      // target: 'http://127.0.0.1:3000', // 网站请求数据
+      // target: 'http://49.233.165.116:3000',
+      target: 'http://127.0.0.1:3000', // 网站请求数据
       changeOrigin: true,
     },
     '/uploads': {

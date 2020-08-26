@@ -8,29 +8,28 @@
       </h1>
       <nav class="nav-list">
         <nuxt-link to="/" exact class="nav-item">
-          <i class="el-icon-s-home" />
+          <i class="iconfont icon-home" />
           <span> 首页 </span>
         </nuxt-link>
         <nuxt-link
-          v-for="(item, i) in categories"
+          v-for="(category, i) in categories"
           :key="i"
           :to="{
-            name: 'category-slug',
-            params: { slug: item.slug, title: item.name },
+            name: 'category-category_slug',
+            params: {
+              category_slug: category.slug,
+              title: category.name,
+            },
           }"
           class="nav-item"
         >
-          <i class="iconfont" :class="item.icon" />
+          <i class="iconfont" :class="category.icon" />
           <span>
-            {{ item.name }}
+            {{ category.name }}
           </span>
         </nuxt-link>
-        <nuxt-link to="/message" class="nav-item">
-          <i class="iconfont icon-message" />
-          <span> 留言墙 </span>
-        </nuxt-link>
         <nuxt-link to="/about" class="nav-item">
-          <i class="iconfont icon-message" />
+          <i class="iconfont icon-user" />
           <span> 关于 </span>
         </nuxt-link>
       </nav>

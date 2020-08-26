@@ -61,7 +61,7 @@ export default {
     },
     currentTag() {
       return this.$store.state.tag.data.find((tag, index, arr) => {
-        return Object.is(tag.slug, this.$route.params.slug)
+        return Object.is(tag.slug, this.$route.params.tag_slug)
       })
     },
     // currentTagIconClass() {
@@ -69,7 +69,7 @@ export default {
     // },
     currentCategory() {
       return this.$store.state.category.data.find((category, index, arr) => {
-        return Object.is(category.slug, this.$route.params.slug)
+        return Object.is(category.slug, this.$route.params.category_slug)
       })
     },
     // currentCategoryIconClass() {

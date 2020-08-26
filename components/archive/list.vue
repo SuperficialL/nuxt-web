@@ -104,10 +104,9 @@ export default {
       return this.$store.state.global.isMobile
     },
     isCanLoadMore() {
-      // const { current_page, total_page } = this.article.data.pagination
-      // const hasArticles = this.article.data.pagination
-      // return hasArticles ? current_page < total_page : false
-      return false
+      const { page, total_page } = this.article.data.pagination
+      const hasArticles = this.article.data.pagination
+      return hasArticles ? page < total_page : false
     },
   },
 }
@@ -163,10 +162,7 @@ export default {
         flex: 1;
         .title {
           margin: 0;
-          // font-size: 18px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
+          @include text-overflow();
           font-weight: 500;
           vertical-align: middle;
           .classify {
@@ -201,7 +197,7 @@ export default {
           height: 90px;
           overflow: hidden;
           color: #555;
-          line-height: 24px;
+          line-height: 23px;
           font-size: 14px;
           word-break: break-word;
           text-overflow: ellipsis;
@@ -212,7 +208,6 @@ export default {
           justify-content: space-between;
           font-size: 12px;
           .article-meta {
-            font-size: 12px;
             color: #999;
             span {
               margin-right: 8px;
@@ -227,73 +222,29 @@ export default {
       }
       &.mobile {
         display: block;
-        position: relative;
-        padding: 20px 0;
-        border-bottom: 1px solid #eee;
         .article-thumbnail {
-          display: block;
           width: 100%;
           margin-right: 0;
-          overflow: hidden;
-          border-radius: 6px;
           .thumbnail {
             width: 100%;
-            height: 140px;
-            transition: 0.4s ease-in-out;
           }
         }
         .article-content {
           position: relative;
-          .title {
+          .title {  
             margin: 8px 0;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            font-weight: 500;
-            vertical-align: middle;
-            .classify {
-              vertical-align: middle;
-              position: relative;
-              margin-right: 10px;
-              padding: 3px 5px;
-              font-size: 12px;
-              color: #fff;
-              border-radius: 2px;
-              background-color: #1890ff;
-              &::after {
-                content: '';
-                position: absolute;
-                right: -10px;
-                top: 50%;
-                transform: translateY(-50%);
-                border: 5px solid transparent;
-                border-left-color: #1890ff;
-              }
-            }
             a {
               vertical-align: middle;
             }
           }
           .summary {
-            display: -webkit-box;
-            -webkit-line-clamp: 4;
-            -webkit-box-orient: vertical;
-            margin: 10px auto;
-            height: 90px;
-            overflow: hidden;
-            color: #555;
-            line-height: 24px;
-            font-size: 14px;
-            word-break: break-word;
-            text-overflow: ellipsis;
+            font-size: 13px;
           }
           .article-info {
             display: block;
-            font-size: 12px;
             .article-meta {
               display: flex;
               justify-content: space-between;
-              font-size: 12px;
               color: #999;
             }
             .detail-btn {

@@ -1,7 +1,7 @@
 /*
  * @Author: Superficial
  * @Date: 2020-07-19 16:23:49
- * @LastEditTime: 2020-08-09 12:11:06
+ * @LastEditTime: 2020-08-26 17:04:29
  * @Description: 全局配置
  */
 
@@ -35,6 +35,9 @@ export const state = () => {
       articles: 0,
       categories: 0,
     },
+
+    // 管理员
+    adminInfo: {},
   }
 }
 
@@ -68,6 +71,13 @@ export const mutations = {
     state.isMobile = action
   },
 
+  // 获取服务端配置的管理员信息
+  updateAdminInfo(state, action) {
+    console.log(action, 'action')
+
+    state.adminInfo = action
+  },
+
   // 获取服务端配置
   updateAppOptionFetching(state, action) {
     state.appOption.fetching = action
@@ -80,6 +90,13 @@ export const mutations = {
 }
 
 export const actions = {
+  // 获取博主资料
+  fetchAdminInfo({ commit }) {
+    return this.$axios
+      .$get('/api/auth')
+      .then((res) => commit('updateAdminInfo', res.result))
+      .catch((err) => Promise.reject(err))
+  },
   // 获取全局配置
   fetchAppOption({ commit }) {
     return this.$axios

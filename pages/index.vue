@@ -27,13 +27,13 @@ export default {
     },
     nextPageParams() {
       return {
-        page: this.article.data.pagination.current_page + 1,
+        page: this.article.data.pagination.page + 1,
       }
     },
   },
   methods: {
     loadmoreArticle() {
-      // this.$store.dispatch('article/fetchList', this.nextPageParams)
+      this.$store.dispatch('article/fetchList', this.nextPageParams)
     },
   },
   head() {
