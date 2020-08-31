@@ -32,23 +32,23 @@
         </h5> -->
 
     <!-- search -->
-    <!-- <h5
-          v-else-if="currentKeyword"
-          :key="`search-${currentKeyword}`"
-          class="title"
-        >
-          <span v-if="isEnLang">
-            <span>"{{ currentKeyword }}"</span>
-            <span>related articles</span>
-          </span>
-          <span v-else>
-            <span>和</span>
-            <span>&nbsp;"</span>
-            <span>{{ currentKeyword }}</span>
-            <span>"&nbsp;</span>
-            <span>有关的所有文章</span>
-          </span>
-        </h5> -->
+    <h5
+      v-else-if="currentKeyword"
+      :key="`search-${currentKeyword}`"
+      class="title"
+    >
+      <!-- <span v-if="isEnLang">
+        <span>"{{ currentKeyword }}"</span>
+        <span>related articles</span>
+      </span> -->
+      <span>
+        <span>和</span>
+        <span>&nbsp;"</span>
+        <span>{{ currentKeyword }}</span>
+        <span>"&nbsp;</span>
+        <span>有关的所有文章</span>
+      </span>
+    </h5>
   </div>
 </template>
 
@@ -90,9 +90,9 @@ export default {
     // currentDate() {
     //   return this.$route.params.date
     // },
-    // currentKeyword() {
-    //   return this.$route.params.keyword
-    // },
+    currentKeyword() {
+      return this.$route.params.keyword
+    },
     isMobile() {
       return this.$store.state.global.isMobile
     },

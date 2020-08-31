@@ -42,7 +42,7 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {
         rel: 'stylesheet',
-        href: '//at.alicdn.com/t/font_656382_uax4phygn6.css',
+        href: '//at.alicdn.com/t/font_656382_9se5lixe9zg.css',
       },
     ],
   },

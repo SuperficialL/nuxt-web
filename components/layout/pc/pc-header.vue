@@ -28,6 +28,10 @@
             {{ category.name }}
           </span>
         </nuxt-link>
+        <nuxt-link to="/timeline" class="nav-item">
+          <i class="iconfont icon-creation" />
+          <span> 时光荏苒 </span>
+        </nuxt-link>
         <nuxt-link to="/about" class="nav-item">
           <i class="iconfont icon-user" />
           <span> 关于 </span>

@@ -20,6 +20,7 @@ import { mapState } from 'vuex'
 import HeaderView from './pc-header'
 import FooterView from './pc-footer'
 import AsideView from './aside'
+import { startTitleEgg, resetTitle } from '@/services/title-egg'
 
 export default {
   name: 'PcMain',
@@ -28,8 +29,24 @@ export default {
     FooterView,
     AsideView,
   },
+  mounted() {
+    this.autoEggWhenTabActive()
+  },
   computed: {
     ...mapState('global', ['isShowSide']),
+  },
+  methods: {
+    autoEggWhenTabActive() {
+      document.addEventListener(
+        'visibilitychange',
+        (event) => {
+          event.target.hidden || event.target.webkitHidden
+            ? startTitleEgg()
+            : resetTitle()
+        },
+        false
+      )
+    },
   },
 }
 </script>

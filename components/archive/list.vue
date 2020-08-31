@@ -5,73 +5,81 @@
       <list-header />
     </div>
     <div v-if="article" class="article-list">
-      <article
-        v-for="articleItem in article.data.data"
-        :key="articleItem.id"
-        class="article"
-        :class="{ mobile: isMobile }"
-      >
-        <nuxt-link
-          class="article-thumbnail"
-          :to="{
-            name: 'article-id',
-            params: { id: articleItem.id, title: articleItem.title },
-          }"
+      <transition name="module" mode="out-in">
+        <transition-group
+          key="list"
+          name="fade"
+          tag="div"
+          v-if="article.data.data && article.data.data.length"
         >
-          <img
-            :src="articleItem.thumbnail"
-            :alt="articleItem.title"
-            class="thumbnail"
-          />
-        </nuxt-link>
-        <div class="article-content">
-          <h3 class="title">
-            <span class="classify">{{ articleItem.category.name }}</span>
+          <article
+            v-for="articleItem in article.data.data"
+            :key="articleItem.id"
+            class="article"
+            :class="{ mobile: isMobile }"
+          >
             <nuxt-link
+              class="article-thumbnail"
               :to="{
                 name: 'article-id',
                 params: { id: articleItem.id, title: articleItem.title },
               }"
             >
-              {{ articleItem.title }}
+              <img
+                :src="articleItem.thumbnail"
+                :alt="articleItem.title"
+                class="thumbnail"
+              />
             </nuxt-link>
-          </h3>
-          <div class="summary">{{ articleItem.description }}</div>
-          <div class="article-info">
-            <div class="article-meta">
-              <span>
-                <i class="iconfont icon-time" />
-                {{ articleItem.created_time | dateFormat }}
-              </span>
-              <span>
-                <i class="iconfont icon-eye" />
-                {{ articleItem.views }}
-              </span>
-              <span>
-                <i class="iconfont icon-comment" />
-                {{ articleItem.comments }}
-              </span>
-              <span>
-                <i class="iconfont icon-dianzan" />
-                {{ articleItem.likes }}
-              </span>
+            <div class="article-content">
+              <h3 class="title">
+                <span class="classify">{{ articleItem.category.name }}</span>
+                <nuxt-link
+                  :to="{
+                    name: 'article-id',
+                    params: { id: articleItem.id, title: articleItem.title },
+                  }"
+                >
+                  {{ articleItem.title }}
+                </nuxt-link>
+              </h3>
+              <div class="summary">{{ articleItem.description }}</div>
+              <div class="article-info">
+                <div class="article-meta">
+                  <span>
+                    <i class="iconfont icon-time" />
+                    {{ articleItem.created_time | dateFormat }}
+                  </span>
+                  <span>
+                    <i class="iconfont icon-eye" />
+                    {{ articleItem.views }}
+                  </span>
+                  <span>
+                    <i class="iconfont icon-comment" />
+                    {{ articleItem.comments }}
+                  </span>
+                  <span>
+                    <i class="iconfont icon-dianzan" />
+                    {{ articleItem.likes }}
+                  </span>
+                </div>
+                <nuxt-link
+                  class="detail-btn"
+                  :to="{
+                    name: 'article-id',
+                    params: { id: articleItem.id, title: articleItem.title },
+                  }"
+                >
+                  阅读全文
+                  <i v-if="!isMobile" class="iconfont icon-next" />
+                </nuxt-link>
+              </div>
             </div>
-            <nuxt-link
-              class="detail-btn"
-              :to="{
-                name: 'article-id',
-                params: { id: articleItem.id, title: articleItem.title },
-              }"
-            >
-              阅读全文
-              <i v-if="!isMobile" class="iconfont icon-next" />
-            </nuxt-link>
-          </div>
-        </div>
-      </article>
-    </div>
-    <div v-else class="article-list">
-      暂无文章
+          </article>
+        </transition-group>
+
+        <empty key="empty" v-else></empty>
+      </transition>
     </div>
     <!-- 加载更多 -->
     <div class="article-load">
@@ -80,7 +88,11 @@
         :disabled="article.fetching || !isCanLoadMore"
         @click="$emit('loadmore')"
       >
-        加载更多
+        <span v-if="!article.fetching && isCanLoadMore">山河入梦</span>
+        <span v-else-if="article.fetching && isCanLoadMore">人面桃花</span>
+        <span v-else-if="!isCanLoadMore">
+          江南才尽
+        </span>
       </button>
     </div>
   </div>
@@ -88,10 +100,12 @@
 
 <script>
 import ListHeader from './list-header'
+import empty from './empty'
 export default {
   name: 'ArticleList',
   components: {
     ListHeader,
+    empty,
   },
   props: {
     article: {
@@ -231,7 +245,7 @@ export default {
         }
         .article-content {
           position: relative;
-          .title {  
+          .title {
             margin: 8px 0;
             a {
               vertical-align: middle;
