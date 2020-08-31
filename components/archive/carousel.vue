@@ -172,8 +172,8 @@ $mobile-carrousel-height: calc((100vw - 2rem) * 0.35);
           border-radius: 1px;
           letter-spacing: 0.3px;
           max-width: 75%;
-          // @include text-overflow;
-          -webkit-background-clip: text;
+          @include text-overflow;
+          background-clip: text;
           background: linear-gradient(
             90deg,
             transparent 0%,

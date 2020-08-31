@@ -51,6 +51,28 @@ export default {
       store.dispatch('comment/fetchList', { article_id: params.id }),
     ])
   },
+  head() {
+    const { article } = this
+    const a =
+      (article.keywords ? article.keywords.join(',') : article.title)
+    return {
+      title: article.title || '...',
+      meta: [
+        {
+          hid: 'keywords',
+          name: 'keywords',
+          content:
+            (article.keywords ? article.keywords.join(',') : article.title) ||
+            '',
+        },
+        {
+          hid: 'description',
+          name: 'description',
+          content: article.description,
+        },
+      ],
+    }
+  },
   computed: {
     ...mapState({
       article: (state) => state.article.detail.data,

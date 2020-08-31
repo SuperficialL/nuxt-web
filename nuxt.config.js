@@ -1,3 +1,5 @@
+import appConfig from './config/app.config'
+
 export default {
   /*
    ** Nuxt rendering mode
@@ -18,17 +20,22 @@ export default {
    ** See https://nuxtjs.org/api/configuration-head
    */
   head: {
-    title: process.env.npm_package_name || '',
+    title: `${appConfig.meta.title} - ${appConfig.meta.slogan}`,
+    titleTemplate: `%s | ${appConfig.meta.title}`,
+    htmlAttrs: {
+      lang: 'zh',
+    },
     meta: [
       { charset: 'utf-8' },
       {
         name: 'viewport',
         content: 'width=device-width, initial-scale=1,user-scalable=0',
       },
+      { hid: 'keywords', name: 'keywords', content: appConfig.meta.keywords },
       {
         hid: 'description',
         name: 'description',
-        content: process.env.npm_package_description,
+        content: appConfig.meta.description,
       },
     ],
     link: [
