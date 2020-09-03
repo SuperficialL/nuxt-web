@@ -28,7 +28,7 @@
             {{ category.name }}
           </span>
         </nuxt-link>
-        <nuxt-link to="/timeline" class="nav-item">
+        <nuxt-link to="/message" class="nav-item">
           <i class="iconfont icon-creation" />
           <span> 时光荏苒 </span>
         </nuxt-link>

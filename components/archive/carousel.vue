@@ -45,10 +45,10 @@ export default {
       renderSwiper: true,
       transitioning: false,
       swiperOption: {
-        // autoplay: {
-        //   delay: 3500,
-        //   disableOnInteraction: false,
-        // },
+        autoplay: {
+          delay: 3500,
+          disableOnInteraction: false,
+        },
         pagination: {
           clickable: true,
           el: '.swiper-pagination',
@@ -92,9 +92,14 @@ export default {
 <style lang="scss">
 .carousel {
   .swiper-pagination {
+    height: 20px;
+    line-height: 20px;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.2);
     .swiper-pagination-bullet {
       &.swiper-pagination-bullet-active {
         width: 2rem;
+        background-color: #0088f5;
         border-radius: 10px;
       }
     }
@@ -112,7 +117,7 @@ $mobile-carrousel-height: calc((100vw - 2rem) * 0.35);
   position: relative;
   overflow: hidden;
   user-select: none;
-  // @include module-blur-bg();
+  @include module-blur-bg();
 
   &.mobile {
     margin-bottom: $gap;
@@ -183,9 +188,9 @@ $mobile-carrousel-height: calc((100vw - 2rem) * 0.35);
           );
 
           &:hover {
-            // color: $text-darken;
+            color: $text-darken;
             padding-left: 0.6em;
-            // background-color: $module-bg;
+            background-color: $module-bg;
           }
         }
       }

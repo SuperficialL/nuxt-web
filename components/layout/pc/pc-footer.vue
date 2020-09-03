@@ -1,20 +1,28 @@
 <template>
   <footer class="footer">
-    <div v-if="links.length" class="footer-top-inner">
-      <ul class="links-wrap">
-        <li v-for="(link, index) in links" :key="index" class="link">
-          <a :href="link.address" target="_blank">{{ link.title }}</a>
-        </li>
-      </ul>
-    </div>
-    <div class="footer-bottom-inner">
-      CopyRight © Superficial Blog All Rights Reserved.
-      <a href="http://beian.miit.gov.cn/" target="_blank">
-        鄂ICP备19027646号-1
-      </a>
-    </div>
-    <div class="back-to-top" :class="{ show: toTopShow }" @click="scrollToTop">
-      <i class="iconfont icon-top" />
+    <div class="container">
+      <div v-if="links.length" class="links">
+        <ul class="links-wrap">
+          <li v-for="(link, index) in links" :key="index" class="link">
+            <a :href="link.address" target="_blank">{{ link.title }}</a>
+          </li>
+        </ul>
+      </div>
+      <div class="copy-right">
+        CopyRight © Superficial Blog All Rights Reserved.
+      </div>
+      <div class="beian">
+        <a href="/sitemap.xml" target="_blank">站点地图</a>
+        <span>·</span>
+        <a href="http://beian.miit.gov.cn/" target="_blank">鄂ICP备19027646号-1</a>
+      </div>
+      <div
+        class="back-to-top"
+        :class="{ show: toTopShow }"
+        @click="scrollToTop"
+      >
+        <i class="iconfont icon-top" />
+      </div>
     </div>
   </footer>
 </template>
@@ -68,9 +76,12 @@ export default {
 <style lang="scss" scoped>
 .footer {
   width: 100%;
+  padding: 30px 0;
+  line-height: 2em;
+  text-align: center;
   background-color: #555e67;
   color: #c9c9c9;
-  .footer-top-inner {
+  .links {
     width: 1260px;
     margin: 0 auto;
     font-size: 16px;
@@ -88,12 +99,13 @@ export default {
       }
     }
   }
-  .footer-bottom-inner {
-    height: 60px;
-    line-height: 60px;
-    background-color: #383e44;
-    text-align: center;
+  .copy-right {
     text-shadow: 0 -1px 0 #333;
+  }
+  .beian {
+    a {
+      color: #99a9bf;
+    }
   }
   .back-to-top {
     position: fixed;

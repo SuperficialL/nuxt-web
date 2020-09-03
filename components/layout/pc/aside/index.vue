@@ -1,5 +1,6 @@
 <template>
   <aside ref="aside" class="sidebar-wrapper">
+    <!-- search -->
     <div class="aside-search">
       <div class="search-box">
         <input
@@ -19,6 +20,7 @@
       </div>
     </div>
 
+    <!-- hot article -->
     <div class="aside-article">
       <h4 class="title">
         <i class="iconfont icon-hot"></i>
@@ -32,15 +34,17 @@
               name: 'article-id',
               params: { id: article.id, title: article.title },
             }"
-            :title="`${article.title} - 「 ${article.comments} 条看法 | ${article.likes} 人觉得很牛逼 」`"
+            :title="`${article.title} - 「 ${article.comments} 条看法 | ${article.likes} 觉得很牛逼 」`"
+            class="title"
           >
-            {{ article.title }}
+            <span> {{ article.title }} </span>
           </nuxt-link>
         </li>
       </ul>
       <empty v-else></empty>
     </div>
 
+    <!-- recent comment -->
     <!-- <div class="sidebar">
       <div class="sidebar-header">
         <h4 class="sidebar-title">
@@ -76,36 +80,32 @@
           暂无评论
         </div>
       </div>
-    </div>
+    </div> -->
 
-    <div class="sidebar">
-      <div class="sidebar-header">
-        <h4 class="sidebar-title">
+    <!-- tag cloud -->
+    <div class="aside-tag">
+        <h4 class="title">
+          <i class="iconfont icon-tag"></i>
           标签云
         </h4>
-        <nuxt-link to="/">
-          更多
-        </nuxt-link>
-      </div>
-      <div class="sidebar-content">
-        <ul v-if="tags.length" class="sidebar-tags">
-          <li v-for="tag in tags" :key="tag._id" class="tag">
+        <ul v-if="tags.length" class="aside-tag-list">
+          <li v-for="tag in tags" :key="tag._id" class="item">
             <nuxt-link
               :to="{
                 name: 'tag-tag_slug',
                 params: { tag_slug: tag.slug, title: tag.name },
               }"
+              class="title"
             >
-              {{ tag.name }}
+            <i class="iconfont icon-math"></i>
+            <span class="name"> {{ tag.name }} </span>
             </nuxt-link>
           </li>
         </ul>
-        <div v-else>
-          暂无标签
-        </div>
+        <empty v-else></empty>
       </div>
     </div>
-
+    <!--
     <div class="sidebar">
       <div class="sidebar-header">
         <h4 class="sidebar-title">
@@ -132,7 +132,8 @@
           </li>
         </ul>
       </div>
-    </div> -->
+    </div>
+    -->
   </aside>
 </template>
 
@@ -254,7 +255,7 @@ export default {
 }
 
 .aside-article {
-  .title {
+  > .title {
     height: 3em;
     line-height: 3em;
     margin: 0;
@@ -300,7 +301,6 @@ export default {
       &:last-child {
         margin: 0;
       }
-
       .index {
         color: $text-secondary;
         counter-increment: hot-article-list;
@@ -312,14 +312,12 @@ export default {
         text-align: center;
         margin-right: $sm-gap;
         font-size: $gap;
-
         &::before {
           content: counter(hot-article-list);
         }
       }
       .title {
         font-size: $font-size-h6;
-
         &:hover {
           text-decoration: underline;
         }
@@ -327,29 +325,69 @@ export default {
     }
   }
 }
-// .sidebar-content {
-//   margin-top: 10px;
-// }
-// .sidebar-tags {
-//   display: flex;
-//   flex-wrap: wrap;
-//   .tag {
-//     margin: 3px 5px;
-//     padding: 3px;
-//     background-color: #fff;
-//     border: 1px solid #ccc;
-//     border-radius: 3px;
-//     transition: color 0.4s;
-//     cursor: pointer;
-//     a:hover {
-//       color: #1890ff;
-//     }
-//   }
-// }
-// }
-// .search {
-//   cursor: pointer;
-// }
+
+.aside-tag {
+  width: 100%;
+  padding-left: $gap;
+  > .title {
+    height: 3em;
+    line-height: 3em;
+    margin: 0;
+    padding: 0 1rem;
+    border-bottom: 1px dashed var(--body-bg);
+    text-transform: uppercase;
+    .iconfont {
+      margin-right: $sm-gap;
+    }
+  }
+  .aside-tag-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    padding: 0.618rem 0;
+    overflow: hidden;
+    .item {
+      display: inline-flex;
+      margin-right: $sm-gap;
+      margin-bottom: $gap;
+      height: 2em;
+      line-height: 2em;
+      font-size: $font-size-h6;
+      text-transform: capitalize;
+      &:last-child {
+        margin: 0;
+      }
+      &:hover {
+        .title {
+          .iconfont {
+            background-color: $module-hover-bg;
+          }
+
+          .name {
+            background-color: $module-hover-bg-darken-20;
+          }
+        }
+      }
+
+      .title {
+        display: flex;
+        font-family: $font-family-sans-serif;
+
+        .iconfont {
+          width: 2em;
+          text-align: center;
+          background-color: $module-hover-bg-opacity-3;
+        }
+
+        .name {
+          display: block;
+          padding: 0 $sm-gap;
+          background-color: $module-hover-bg;
+        }
+      }
+    }
+  }
+}
 
 // .hot-list {
 //   font-family: Georgia, serif;

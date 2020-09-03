@@ -1,7 +1,7 @@
 /*
  * @Author: Superficial
  * @Date: 2020-07-19 16:23:49
- * @LastEditTime: 2020-08-26 17:04:29
+ * @LastEditTime: 2020-09-03 16:04:37
  * @Description: 全局配置
  */
 
@@ -73,8 +73,6 @@ export const mutations = {
 
   // 获取服务端配置的管理员信息
   updateAdminInfo(state, action) {
-    console.log(action, 'action')
-
     state.adminInfo = action
   },
 

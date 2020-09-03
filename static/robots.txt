@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: http://zhangwurui.net/sitemap.xml
+Sitemap: zhangwurui.net/sitemap.xml
