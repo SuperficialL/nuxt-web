@@ -97,8 +97,11 @@
               }"
               class="title"
             >
-            <i class="iconfont icon-math"></i>
-            <span class="name"> {{ tag.name }} </span>
+              <i class="iconfont" :class="tag.icon"></i>
+              <span class="name">
+                <span>{{ tag.name }} </span>
+                <span>({{ tag.count || 0 }})</span>
+              </span>
             </nuxt-link>
           </li>
         </ul>

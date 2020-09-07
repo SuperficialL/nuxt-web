@@ -26,18 +26,18 @@
       </article>
     </section>
 
-    <comment-box :article-id="articleId" :likes="article.likes"></comment-box>
+    <comment :article-id="articleId" :likes="article.likes"></comment>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import CommentBox from '@/components/CommentBox'
+import Comment from '@/components/comment'
 import marked from '@/plugins/marked'
 export default {
   name: 'Detail',
   components: {
-    CommentBox,
+    Comment,
   },
   validate({ params }) {
     return params.id && !isNaN(Number(params.id))
@@ -53,8 +53,7 @@ export default {
   },
   head() {
     const { article } = this
-    const a =
-      (article.keywords ? article.keywords.join(',') : article.title)
+    const a = article.keywords ? article.keywords.join(',') : article.title
     return {
       title: article.title || '...',
       meta: [
@@ -76,24 +75,17 @@ export default {
   computed: {
     ...mapState({
       article: (state) => state.article.detail.data,
-      isFetching: (state) => state.article.detail.fetching,
       isMobile: (state) => state.global.isMobile,
     }),
-    opinios() {
-      return ''
-    },
     articleId() {
       return Number(this.$route.params.id)
     },
     articleContent() {
       const { content } = this.article
-      if (!content) {
-        return ''
-      }
+      if (!content) return ''
       return marked(content, true)
     },
   },
-  methods: {},
 }
 </script>
 

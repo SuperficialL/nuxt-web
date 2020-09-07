@@ -198,7 +198,7 @@
 import { mapState } from 'vuex'
 import { getGravatarByEmail, scrollTo } from '@/utils'
 import { getJSONStorageReader } from '@/services/localStorage'
-import CommentUa from '@/components/CommentBox/components/ua'
+import CommentUa from '@/components/comment/components/ua'
 import marked from '~/plugins/marked'
 const localUser = getJSONStorageReader('user')
 const localHistoryLikes = getJSONStorageReader('user_like_history')
@@ -243,12 +243,13 @@ export default {
     }
   },
   computed: {
-    ...mapState('comment', ['comments', 'fetching']),
+    ...mapState({
+      comments: (state) => state.comment.comments,
+      fetching: (state) => state.comment.fetching,
+      isMobile: (state) => state.global.isMobile,
+    }),
     isLikeArticle() {
       return this.historyLikes.pages.includes(this.articleId)
-    },
-    isMobile() {
-      return this.$store.state.global.isMobile
     },
     replyCommentSlef() {
       return this.comments.data.find((comment) =>
@@ -258,13 +259,14 @@ export default {
   },
   mounted() {
     const isBrowser = process.browser
-    if (isBrowser) {
-      this.initUser()
-    }
+    if (isBrowser) this.initUser()
   },
-  destroyed() {
-    this.$store.commit('comment/clearListData')
-  },
+  // destroyed() {
+  //   this.$store.commit('comment/clearListData')
+  // },
+  // deactivated() {
+  //   this.$store.commit('comment/clearListData')
+  // },
   methods: {
     // 初始化本地用户点赞历史
     initUser() {

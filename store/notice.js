@@ -1,7 +1,7 @@
 /*
  * @Author: Superficial
  * @Date: 2020-09-03 15:51:51
- * @LastEditTime: 2020-09-03 15:52:40
+ * @LastEditTime: 2020-09-07 18:22:18
  * @Description: 公告数据
  */
 
@@ -25,7 +25,7 @@ export const actions = {
   fetchList({ commit }, params) {
     commit('updateFetching', true)
     return this.$axios
-      .$get('/api/links', { params })
+      .$get('/api/notices', { params })
       .then((res) => {
         commit('updateListData', res)
         commit('updateFetching', false)

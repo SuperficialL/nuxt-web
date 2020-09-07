@@ -1,18 +1,22 @@
 /*
  * @Author: SuperficialL
  * @Date: 2020-07-06 01:04:33
- * @LastEditTime: 2020-08-13 22:13:34
+ * @LastEditTime: 2020-09-07 20:42:34
  * @Description: 评论数据
  */
+
+const getDefaultListData = () => {
+  return {
+    data: [],
+    pagination: {},
+  }
+}
 
 export const state = () => {
   return {
     fetching: false,
     hotComments: [],
-    comments: {
-      data: [],
-      pagination: {},
-    },
+    comments: getDefaultListData(),
   }
 }
 
@@ -22,15 +26,12 @@ export const mutations = {
   },
   // 清空评论
   clearListData(state) {
-    state.comments = {
-      data: [],
-      pagination: [],
-    }
+    state.comments = getDefaultListData()
   },
 
   // 获取列表
   updateListData(state, res) {
-    state.comments = res.result
+    state.comments = res
   },
 
   // 获取列表
@@ -58,10 +59,19 @@ export const actions = {
   // 获取评论列表
   fetchList({ commit }, params = {}) {
     params = Object.assign({ page: 1, per_page: 15 }, params)
+
+    const isRestart = params.page === 1
+    // // const isDescSort = params.sort === SortType.Desc
+    console.log(isRestart, 'isRestart')
+    // // 清空数据
+    // isRestart && commit('updateListData', getDefaultListData())
+
+    // commit('updateListFetchig', true)
+
     return this.$axios
       .$get('/api/comments', { params })
       .then((res) => {
-        commit('updateListData', res)
+        commit('updateListData', res.result)
       })
       .catch((err) => {
         return Promise.reject(err)
