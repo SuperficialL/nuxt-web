@@ -1,7 +1,7 @@
 /*
  * @Author: Superficial
  * @Date: 2020-07-19 16:23:49
- * @LastEditTime: 2020-09-14 15:02:03
+ * @LastEditTime: 2020-09-14 19:34:56
  * @Description: 全局配置
  */
 
@@ -96,14 +96,14 @@ export const actions = {
   // 获取博主资料
   fetchAdminInfo({ commit }) {
     return this.$axios
-      .$get('/auth')
+      .$get('/api/auth')
       .then((res) => commit('updateAdminInfo', res.result))
   },
   // 获取全局配置
   fetchAppOption({ commit }) {
     commit('updateAppOptionFetching', true)
     return this.$axios
-      .$get('/option')
+      .$get('/api/option')
       .then((res) => {
         commit('updateAppOptionData', res)
         commit('updateAppOptionFetching', false)
@@ -116,7 +116,7 @@ export const actions = {
   // 获取统计数据
   fetchSiteStatistic({ commit }) {
     return this.$axios
-      .$get('/statistic')
+      .$get('/api/statistic')
       .then((res) => {
         commit('updateStatistic', res.result)
       })
@@ -128,7 +128,7 @@ export const actions = {
   // 点赞网站
   fetchLikeSite({ commit }, params) {
     return this.$axios
-      .$post('/like', params, { progress: false })
+      .$post('/api/like', params, { progress: false })
       .then((res) => {
         commit('updateLikesIncrement', params)
         return Promise.resolve(res)

@@ -6,11 +6,6 @@ export default {
    ** Nuxt rendering mode
    ** See https://nuxtjs.org/api/configuration-mode
    */
-  mode: 'universal',
-  // dev: isDevMode,
-  // env: {
-  //   BASE: apiConfig.BASE,
-  // },
   server: {
     port: 8000,
     host: '0.0.0.0',
@@ -94,7 +89,6 @@ export default {
     '@nuxtjs/style-resources',
     '@/plugins/filters',
     '@nuxtjs/axios',
-    '@nuxtjs/proxy'
   ],
   /*
    ** Axios module configuration
@@ -102,21 +96,20 @@ export default {
    */
   axios: {
     proxy: true,
-    credentials: true,
   },
   proxy: {
     '/api': {
-      target: 'https://api.zhangwurui.net',
+      target: 'https://www.zhangwurui.net',
       // target: 'http://127.0.0.1:3000', // 网站请求数据
       changeOrigin: true,
-      pathRewrite: {
-        '^/api': '/',
-      },
+      // pathRewrite: {
+      //   '^/api': '/',
+      // },
     },
-    // '/uploads': {
-    //   target: 'http://www.zhangwurui.net', // 网站请求数据
-    //   changeOrigin: true,
-    // },
+    '/uploads': {
+      target: 'http://www.zhangwurui.net', // 网站请求数据
+      changeOrigin: true,
+    },
   },
   cache: {
     max: 100,

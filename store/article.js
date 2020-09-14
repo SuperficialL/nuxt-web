@@ -1,7 +1,7 @@
 /*
  * @Author: SuperficialL
  * @Date: 2020-07-03 01:09:26
- * @LastEditTime: 2020-09-14 15:23:47
+ * @LastEditTime: 2020-09-14 19:34:02
  * @Description: 文章数据
  */
 import Vue from 'vue'
@@ -82,7 +82,7 @@ export const actions = {
     isRestart && commit('updateListData', getDefaultListData())
     commit('updateListFetching', true)
     return this.$axios
-      .$get('/articles', { params })
+      .$get('/api/articles', { params })
       .then((res) => {
         commit('updateListFetching', false)
         isLoadMore
@@ -104,7 +104,7 @@ export const actions = {
   // 获取热门文章列表
   fetchHotList({ commit }) {
     return this.$axios
-      .$get('/articles', { params: { is_top: 1 } })
+      .$get('/api/articles', { params: { is_top: 1 } })
       .then((res) => {
         commit('updateHotListData', res)
       })
@@ -116,7 +116,7 @@ export const actions = {
   // 获取文章详情
   getArticleDetail({ commit }, article = {}) {
     return this.$axios
-      .$get(`/articles/${article.id}`)
+      .$get(`/api/articles/${article.id}`)
       .then((res) => {
         commit('updateDetailData', res.result)
       })
@@ -127,7 +127,7 @@ export const actions = {
 
   // 喜欢文章
   fetchLikeArticle({ commit }, article) {
-    return this.$axios.$post('/like', article).then((res) => {
+    return this.$axios.$post('/api/like', article).then((res) => {
       commit('updateLikesIncrement')
       return Promise.resolve(res)
     })

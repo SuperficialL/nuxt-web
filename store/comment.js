@@ -1,7 +1,7 @@
 /*
  * @Author: SuperficialL
  * @Date: 2020-07-06 01:04:33
- * @LastEditTime: 2020-09-14 14:30:13
+ * @LastEditTime: 2020-09-14 19:34:29
  * @Description: 评论数据
  */
 
@@ -69,7 +69,7 @@ export const actions = {
     // commit('updateListFetchig', true)
 
     return this.$axios
-      .$get('/comments', { params })
+      .$get('/api/comments', { params })
       .then((res) => {
         commit('updateListData', res.result)
       })
@@ -81,7 +81,7 @@ export const actions = {
   // 获取评论列表
   fetchHotList({ commit }) {
     return this.$axios
-      .$get('/comments', { params: { hot: 1 } })
+      .$get('/api/comments', { params: { hot: 1 } })
       .then((res) => {
         commit('updateHotListData', res)
       })
@@ -94,7 +94,7 @@ export const actions = {
   fetchPostComment({ commit }, comment) {
     commit('updateFetching', true)
     return this.$axios
-      .$post('/comments', comment, { progress: false })
+      .$post('/api/comments', comment, { progress: false })
       .then((res) => {
         commit('updateListNewItemData', res)
         commit('updateFetching', false)
@@ -108,7 +108,7 @@ export const actions = {
   // 点赞评论
   fetchLikeComment({ commit }, comment) {
     return this.$axios
-      .$post('/like', comment, { progress: false })
+      .$post('/api/like', comment, { progress: false })
       .then((res) => {
         commit('updateLikesIncrement', comment)
         return Promise.resolve(res)
