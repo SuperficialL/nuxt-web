@@ -1,7 +1,7 @@
 <template>
   <div class="index-page">
     <carrousel :article="article" />
-    <Notice :notice="notice" />
+    <notice :notice="notice" />
     <article-list :article="article" @loadmore="loadmoreArticle" />
   </div>
 </template>

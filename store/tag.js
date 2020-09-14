@@ -1,7 +1,7 @@
 /*
  * @Author: SuperficialL
  * @Date: 2020-07-04 23:06:58
- * @LastEditTime: 2020-08-12 22:43:59
+ * @LastEditTime: 2020-09-14 15:23:18
  * @Description: 标签数据
  */
 
@@ -24,7 +24,7 @@ export const mutations = {
 export const actions = {
   fetchList({ commit }, params) {
     return this.$axios
-      .$get('/api/tags', { params })
+      .$get('/tags', { params })
       .then((res) => {
         commit('updateListData', res)
       })

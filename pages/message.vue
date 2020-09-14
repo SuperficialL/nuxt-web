@@ -22,7 +22,7 @@ export default {
   fetch({ store }) {
     return Promise.all([
       store.dispatch('global/fetchAppOption'),
-      store.dispatch('comment/fetchList', { article_id: 0 }),
+      // store.dispatch('comment/fetchList', { article_id: 0 }),
     ])
   },
   computed: {

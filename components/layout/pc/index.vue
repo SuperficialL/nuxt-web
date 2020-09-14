@@ -53,7 +53,7 @@ export default {
 
 <style lang="scss" scoped>
 main {
-  min-height: calc(100vh - 60px - 60px - 20px * 2);
+  min-height: calc(100vh - 60px - 108px - 20px * 2);
   margin: 20px 0;
   .wrap {
     display: flex;

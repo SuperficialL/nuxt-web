@@ -1,11 +1,11 @@
 /*
  * @Author: Superficial
  * @Date: 2020-08-31 14:42:13
- * @LastEditTime: 2020-08-31 14:59:54
+ * @LastEditTime: 2020-09-14 14:45:42
  * @Description: title 彩蛋
  */
 
-import { isBrowser } from '~/env'
+import { isBrowser } from '~/environment'
 let reallyTitle = isBrowser ? document.title : ''
 let rollTimer = null
 

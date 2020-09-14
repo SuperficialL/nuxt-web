@@ -54,7 +54,7 @@ export default {
 <style lang="scss" scoped>
 #app-mobile {
   $aside-width: 68%;
-  height: 100vh;
+  // height: 100vh;
   #app-aside {
     width: $aside-width;
     position: fixed;

@@ -1,11 +1,17 @@
 import appConfig from './config/app.config'
-
+import apiConfig from './config/api.config'
+import { isProdMode, isDevMode } from './environment'
+console.log(apiConfig, 'apiConfig')
 export default {
   /*
    ** Nuxt rendering mode
    ** See https://nuxtjs.org/api/configuration-mode
    */
   mode: 'universal',
+  // dev: isDevMode,
+  // env: {
+  //   BASE: apiConfig.BASE,
+  // },
   server: {
     port: 8000,
     host: '0.0.0.0',
@@ -80,12 +86,13 @@ export default {
     { src: '@/plugins/marked' },
     { src: '@/plugins/highlight' },
   ],
+
   /*
    ** Nuxt.js modules
    */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
+    ['@nuxtjs/axios',  { baseURL: apiConfig.BASE }],
     '@nuxtjs/style-resources',
     '@/plugins/filters',
   ],
@@ -93,23 +100,23 @@ export default {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {
-    proxy: true,
-  },
-  proxy: {
-    '/api': {
-      target: 'https://api.zhangwurui.net',
-      // target: 'http://127.0.0.1:3000', // 网站请求数据
-      changeOrigin: true,
-      pathRewrite: {
-        '^/api': '',
-      },
-    },
-    '/uploads': {
-      target: 'http://www.zhangwurui.net', // 网站请求数据
-      changeOrigin: true,
-    },
-  },
+  // axios: {
+  //   proxy: true,
+  // },
+  // proxy: {
+  //   '/api': {
+  //     target: 'https://api.zhangwurui.net',
+  //     // target: 'http://127.0.0.1:3000', // 网站请求数据
+  //     changeOrigin: true,
+  //     pathRewrite: {
+  //       '^/api': '',
+  //     },
+  //   },
+  // '/uploads': {
+  //   target: 'http://www.zhangwurui.net', // 网站请求数据
+  //   changeOrigin: true,
+  // },
+  // },
   cache: {
     max: 100,
     maxAge: 1000 * 60 * 15,

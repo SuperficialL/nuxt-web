@@ -41,46 +41,8 @@
           </nuxt-link>
         </li>
       </ul>
-      <empty v-else></empty>
+      <empty-box v-else></empty-box>
     </div>
-
-    <!-- recent comment -->
-    <!-- <div class="sidebar">
-      <div class="sidebar-header">
-        <h4 class="sidebar-title">
-          最近评论
-        </h4>
-      </div>
-      <div class="sidebar-content">
-        <ul v-if="hotComments.length" class="recent-comment">
-          <li v-for="(comment, index) in hotComments" :key="index" class="item">
-            <div class="avatar">
-              <img
-                :src="getGravatarUrlByEmail(comment.author.email)"
-                :alt="comment.author.name"
-              />
-            </div>
-            <div class="con">
-              <nuxt-link
-                :to="{
-                  name: 'article-id',
-                  params: { id: comment.article_id },
-                }"
-              >
-                {{ comment.content }}
-              </nuxt-link>
-              <p class="info">
-                {{ comment.author.name }} 评论于:
-                {{ comment.created_time | dateFormat }}
-              </p>
-            </div>
-          </li>
-        </ul>
-        <div v-else>
-          暂无评论
-        </div>
-      </div>
-    </div> -->
 
     <!-- tag cloud -->
     <div class="aside-tag">
@@ -105,45 +67,17 @@
             </nuxt-link>
           </li>
         </ul>
-        <empty v-else></empty>
+        <empty-box v-else></empty-box>
       </div>
     </div>
-    <!--
-    <div class="sidebar">
-      <div class="sidebar-header">
-        <h4 class="sidebar-title">
-          站点信息
-        </h4>
-      </div>
-      <div class="sidebar-content">
-        <ul class="site">
-          <li>
-            分类:<span> {{ statistic.categories }}</span
-            >个
-          </li>
-          <li>
-            标签:<span> {{ statistic.tags }}</span
-            >个
-          </li>
-          <li>
-            文章:<span> {{ statistic.articles }}</span
-            >篇
-          </li>
-          <li>
-            评论:<span> {{ statistic.comments }}</span
-            >条
-          </li>
-        </ul>
-      </div>
-    </div>
-    -->
   </aside>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import { getGravatarByEmail } from '@/utils'
-import empty from '@/components/archive/empty'
+import EmptyBox from '@/components/archive/empty'
+
 export default {
   name: 'Sidebar',
   data() {
@@ -151,8 +85,8 @@ export default {
       keyword: '',
     }
   },
-  component: {
-    empty,
+  components: {
+    EmptyBox,
   },
   computed: {
     ...mapState('article', ['hotList']),

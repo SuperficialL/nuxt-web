@@ -27,8 +27,8 @@ export const actions = {
     if (!isMobile) {
       initFetchData.push(store.dispatch('tag/fetchList'))
       initFetchData.push(store.dispatch('article/fetchHotList'))
-      initFetchData.push(store.dispatch('comment/fetchHotList'))
-      initFetchData.push(store.dispatch('global/fetchSiteStatistic'))
+      // initFetchData.push(store.dispatch('comment/fetchHotList'))
+      // initFetchData.push(store.dispatch('global/fetchSiteStatistic'))
     }
 
     return Promise.all(initFetchData)

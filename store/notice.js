@@ -25,7 +25,7 @@ export const actions = {
   fetchList({ commit }, params) {
     commit('updateFetching', true)
     return this.$axios
-      .$get('/api/notices', { params })
+      .$get('/notices', { params })
       .then((res) => {
         commit('updateListData', res)
         commit('updateFetching', false)

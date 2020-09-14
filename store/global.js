@@ -1,7 +1,7 @@
 /*
  * @Author: Superficial
  * @Date: 2020-07-19 16:23:49
- * @LastEditTime: 2020-09-10 17:47:35
+ * @LastEditTime: 2020-09-14 15:02:03
  * @Description: 全局配置
  */
 
@@ -73,7 +73,6 @@ export const mutations = {
 
   // 获取服务端配置的管理员信息
   updateAdminInfo(state, action) {
-    console.log(action, 'ac')
     state.adminInfo = action
   },
   // 获取服务端配置
@@ -97,14 +96,14 @@ export const actions = {
   // 获取博主资料
   fetchAdminInfo({ commit }) {
     return this.$axios
-      .$get('/api/auth')
+      .$get('/auth')
       .then((res) => commit('updateAdminInfo', res.result))
   },
   // 获取全局配置
   fetchAppOption({ commit }) {
     commit('updateAppOptionFetching', true)
     return this.$axios
-      .$get('/api/option')
+      .$get('/option')
       .then((res) => {
         commit('updateAppOptionData', res)
         commit('updateAppOptionFetching', false)
@@ -117,7 +116,7 @@ export const actions = {
   // 获取统计数据
   fetchSiteStatistic({ commit }) {
     return this.$axios
-      .$get('/api/statistic')
+      .$get('/statistic')
       .then((res) => {
         commit('updateStatistic', res.result)
       })
@@ -129,7 +128,7 @@ export const actions = {
   // 点赞网站
   fetchLikeSite({ commit }, params) {
     return this.$axios
-      .$post('/api/like', params, { progress: false })
+      .$post('/like', params, { progress: false })
       .then((res) => {
         commit('updateLikesIncrement', params)
         return Promise.resolve(res)
