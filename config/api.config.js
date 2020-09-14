@@ -1,7 +1,7 @@
 /*
  * @Author: Superficial
  * @Date: 2020-08-28 14:37:18
- * @LastEditTime: 2020-09-14 15:09:59
+ * @LastEditTime: 2020-09-14 17:02:11
  * @Description: api接口配置
  */
 
@@ -16,4 +16,4 @@ const apiMap = {
   },
 }
 
-export default apiMap[NODE_ENV]
+export default apiMap["production"]

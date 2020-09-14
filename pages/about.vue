@@ -116,7 +116,7 @@ export default {
     justify-content: space-between;
     .description {
       flex-grow: 1;
-      padding: 0.5rem 3rem;
+      padding: 2rem 3rem;
       background-color: #fff;
       .personal {
         .item {

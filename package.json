@@ -17,18 +17,19 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.11.0",
+    "@nuxtjs/proxy": "^2.0.1",
     "@nuxtjs/style-resources": "^1.0.0",
     "bezier-easing": "^2.1.0",
     "gravatar": "^1.8.0",
     "highlight.js": "^10.1.1",
     "js-cookie": "^2.2.1",
     "marked": "^1.1.0",
+    "node-sass": "^4.14.1",
     "nuxt": "^2.13.0",
+    "sass-loader": "^9.0.0",
     "swiper": "^5.4.5",
     "ua-parser-js": "^0.7.21",
-    "vue-awesome-swiper": "^4.1.1",
-    "node-sass": "^4.14.1",
-    "sass-loader": "^9.0.0"
+    "vue-awesome-swiper": "^4.1.1"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
