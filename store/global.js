@@ -1,7 +1,7 @@
 /*
  * @Author: Superficial
  * @Date: 2020-07-19 16:23:49
- * @LastEditTime: 2020-09-03 16:04:37
+ * @LastEditTime: 2020-09-10 17:47:35
  * @Description: 全局配置
  */
 
@@ -73,12 +73,18 @@ export const mutations = {
 
   // 获取服务端配置的管理员信息
   updateAdminInfo(state, action) {
+    console.log(action, 'ac')
     state.adminInfo = action
   },
-
   // 获取服务端配置
   updateAppOptionFetching(state, action) {
     state.appOption.fetching = action
+  },
+  updateAppOptionData(state, action) {
+    state.appOption.data = action.result
+  },
+  updateLikesIncrement(state) {
+    state.appOption.data.likes++
   },
 
   // 获取全局信息
@@ -93,17 +99,18 @@ export const actions = {
     return this.$axios
       .$get('/api/auth')
       .then((res) => commit('updateAdminInfo', res.result))
-      .catch((err) => Promise.reject(err))
   },
   // 获取全局配置
   fetchAppOption({ commit }) {
+    commit('updateAppOptionFetching', true)
     return this.$axios
-      .$get('/option')
+      .$get('/api/option')
       .then((res) => {
         commit('updateAppOptionData', res)
+        commit('updateAppOptionFetching', false)
       })
       .catch((err) => {
-        return Promise.reject(err)
+        commit('updateAppOptionFetching', false)
       })
   },
 
@@ -113,6 +120,19 @@ export const actions = {
       .$get('/api/statistic')
       .then((res) => {
         commit('updateStatistic', res.result)
+      })
+      .catch((err) => {
+        return Promise.reject(err)
+      })
+  },
+
+  // 点赞网站
+  fetchLikeSite({ commit }, params) {
+    return this.$axios
+      .$post('/api/like', params, { progress: false })
+      .then((res) => {
+        commit('updateLikesIncrement', params)
+        return Promise.resolve(res)
       })
       .catch((err) => {
         return Promise.reject(err)

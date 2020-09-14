@@ -30,6 +30,10 @@
           {{ category.name }}
         </span>
       </nuxt-link>
+      <nuxt-link to="/message" class="nav-item">
+        <i class="iconfont icon-user" />
+        <span> 留言板 </span>
+      </nuxt-link>
       <nuxt-link to="/about" class="nav-item">
         <i class="iconfont icon-user" />
         <span> 关于 </span>

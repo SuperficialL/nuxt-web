@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="comment">
-      <comment :article-id="0" :likes="100"></comment>
+      <comment :article-id="0" :likes="siteLikes"></comment>
     </div>
   </div>
 </template>
@@ -21,18 +21,15 @@ export default {
   },
   fetch({ store }) {
     return Promise.all([
-      // store.dispatch('global/fetchAppOption'),
+      store.dispatch('global/fetchAppOption'),
       store.dispatch('comment/fetchList', { article_id: 0 }),
     ])
   },
   computed: {
-    // siteLikes() {
-    //   const appOption = this.$store.state.global.appOption.data
-    //   return appOption ? appOption.meta.likes : 0
-    // },
-    // isEnLang() {
-    //   return this.$store.getters['global/isEnLang']
-    // },
+    siteLikes() {
+      const appOption = this.$store.state.global.appOption.data
+      return appOption ? appOption.likes : 0
+    },
     isMobile() {
       return this.$store.state.global.isMobile
     },
@@ -51,10 +48,6 @@ export default {
       font-size: 20px;
       text-align: center;
     }
-    content {
-    }
-  }
-  .comment {
   }
 }
 </style>

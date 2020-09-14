@@ -90,4 +90,4 @@ sw.*
 *.swp
 
 
-static/sitemap.xml
+/static/sitemap.xml

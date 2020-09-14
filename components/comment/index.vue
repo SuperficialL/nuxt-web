@@ -5,7 +5,7 @@
         <strong>{{ comments.pagination.total || 0 }}</strong>
         <span>条看法</span>
       </div>
-      <div class="likes" :class="{ liked: isLikeArticle }" @click="likeArticle">
+      <div class="likes" :class="{ liked: isLikePage }" @click="likePage">
         <i class="iconfont icon-like" />
         <strong>{{ likes }}</strong>
         <span>人觉得很牛逼</span>
@@ -248,7 +248,7 @@ export default {
       fetching: (state) => state.comment.fetching,
       isMobile: (state) => state.global.isMobile,
     }),
-    isLikeArticle() {
+    isLikePage() {
       return this.historyLikes.pages.includes(this.articleId)
     },
     replyCommentSlef() {
@@ -444,15 +444,17 @@ export default {
     },
 
     // 点赞文章
-    likeArticle() {
-      if (this.isLikeArticle) {
-        return false
-      }
+    likePage() {
+      if (this.isLikePage) return false
+      const isLikeSite = this.articleId === 0
       this.$store
-        .dispatch('article/fetchLikeArticle', {
-          id: this.articleId,
-          type: 'article',
-        })
+        .dispatch(
+          isLikeSite ? 'global/fetchLikeSite' : 'article/fetchLikeArticle',
+          {
+            id: this.articleId,
+            type: isLikeSite ? 'page' : 'article',
+          }
+        )
         .then((res) => {
           this.historyLikes.pages.push(this.articleId)
           localHistoryLikes.set(this.historyLikes)
@@ -464,9 +466,7 @@ export default {
 
     // 点赞评论
     likeComment(comment) {
-      if (this.getCommentLiked(comment.id)) {
-        return false
-      }
+      if (this.getCommentLiked(comment.id)) return false
       this.$store
         .dispatch('comment/fetchLikeComment', {
           id: comment.id,

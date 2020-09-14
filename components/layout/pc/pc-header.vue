@@ -30,7 +30,7 @@
         </nuxt-link>
         <nuxt-link to="/message" class="nav-item">
           <i class="iconfont icon-creation" />
-          <span> 时光荏苒 </span>
+          <span> 留言板 </span>
         </nuxt-link>
         <nuxt-link to="/about" class="nav-item">
           <i class="iconfont icon-user" />

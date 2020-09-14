@@ -98,9 +98,12 @@ export default {
   },
   proxy: {
     '/api': {
-      // target: 'http://49.233.165.116:3000',
-      target: 'http://127.0.0.1:3000', // 网站请求数据
+      target: 'https://api.zhangwurui.net',
+      // target: 'http://127.0.0.1:3000', // 网站请求数据
       changeOrigin: true,
+      pathRewrite: {
+        '^/api': '',
+      },
     },
     '/uploads': {
       target: 'http://www.zhangwurui.net', // 网站请求数据
