@@ -4,10 +4,10 @@
     <main id="main">
       <div class="wrap">
         <div id="content" :class="{ 'full-view': isShowSide }">
-          <nuxt :nuxt-child-key="$route.name" />
+          <nuxt :nuxtChildKey="$route.name" keep-alive/>
         </div>
         <div v-if="!isShowSide" id="aside">
-          <aside-view />
+        <aside-view />
         </div>
       </div>
     </main>
