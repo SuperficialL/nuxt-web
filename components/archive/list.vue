@@ -1,7 +1,5 @@
 <template>
   <div class="articles" :class="{ mobile: isMobile }">
-    
-
     <!-- 非首页列表头 -->
     <div class="article-list-header">
       <list-header />
@@ -92,9 +90,7 @@
       >
         <span v-if="!article.fetching && isCanLoadMore">山河入梦</span>
         <span v-else-if="article.fetching && isCanLoadMore">人面桃花</span>
-        <span v-else-if="!isCanLoadMore">
-          江南才尽
-        </span>
+        <span v-else-if="!isCanLoadMore"> 江南才尽 </span>
       </button>
     </div>
   </div>
@@ -141,8 +137,8 @@ export default {
   .article-list {
     .article {
       position: relative;
-      display: flex;
-      justify-content: space-between;
+      // display: flex;
+      // justify-content: space-between;
       padding: 20px 0;
       border-bottom: 1px solid #eee;
       &:hover .thumbnail {
@@ -161,6 +157,7 @@ export default {
         background-color: #1890ff;
       }
       .article-thumbnail {
+        float: left;
         display: block;
         margin-right: 10px;
         overflow: hidden;
@@ -175,12 +172,11 @@ export default {
       }
       .article-content {
         position: relative;
-        flex: 1;
         .title {
           margin: 0;
-          @include text-overflow();
           font-weight: 500;
           vertical-align: middle;
+          @include text-overflow();
           .classify {
             vertical-align: middle;
             position: relative;
@@ -202,6 +198,7 @@ export default {
           }
           a {
             vertical-align: middle;
+            @include text-overflow();
           }
         }
         .summary {

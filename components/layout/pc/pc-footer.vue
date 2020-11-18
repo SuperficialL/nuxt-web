@@ -14,7 +14,9 @@
       <div class="beian">
         <a href="/sitemap.xml" target="_blank">站点地图</a>
         <span>·</span>
-        <a href="http://beian.miit.gov.cn/" target="_blank">鄂ICP备19027646号-1</a>
+        <a href="http://beian.miit.gov.cn/" target="_blank"
+          >鄂ICP备19027646号-1</a
+        >
       </div>
       <div
         class="back-to-top"
@@ -76,6 +78,7 @@ export default {
 <style lang="scss" scoped>
 .footer {
   width: 100%;
+  margin-top: 12px;
   padding: 30px 0;
   line-height: 2em;
   text-align: center;

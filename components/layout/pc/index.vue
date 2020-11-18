@@ -1,14 +1,13 @@
 <template>
-  <div class="app-main">
+  <div id="app-main">
     <header-view />
-    <main id="main">
-      <div class="wrap">
-        <div id="content" :class="{ 'full-view': isShowSide }">
-          <nuxt :nuxtChildKey="$route.name" keep-alive/>
-        </div>
-        <div v-if="!isShowSide" id="aside">
-        <aside-view />
-        </div>
+    <main id="main" class="main-container" :class="{ 'full-view': isShowSide }">
+      <nav-view />
+      <div id="main-content" class="main-content">
+        <nuxt :nuxtChildKey="$route.name" keep-alive />
+      </div>
+      <div id="aside">
+        <aside-view key="aside" />
       </div>
     </main>
     <footer-view />
@@ -20,14 +19,16 @@ import { mapState } from 'vuex'
 import HeaderView from './pc-header'
 import FooterView from './pc-footer'
 import AsideView from './aside'
+import NavView from './nav'
 import { startTitleEgg, resetTitle } from '@/services/title-egg'
 
 export default {
   name: 'PcMain',
   components: {
     HeaderView,
-    FooterView,
+    NavView,
     AsideView,
+    FooterView,
   },
   mounted() {
     this.autoEggWhenTabActive()
@@ -52,19 +53,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-main {
-  min-height: calc(100vh - 60px - 108px - 20px * 2);
-  margin: 20px 0;
-  .wrap {
+#app-main {
+  // min-height: calc(100vh - 60px - 108px - 20px * 2);
+  // margin: 20px 0;
+  // .wrap {
+  // display: flex;
+  // justify-content: space-between;
+  .main-container {
+    padding-top: 80px;
+    position: relative;
     display: flex;
     justify-content: space-between;
-    #content {
-      width: 840px;
+    width: $container-width;
+    .main-content {
+      width: 680px;
       &.full-view {
         width: 100%;
       }
     }
-    #aside {
+    aside {
       width: 320px;
     }
   }

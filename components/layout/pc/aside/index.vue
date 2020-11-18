@@ -46,29 +46,28 @@
 
     <!-- tag cloud -->
     <div class="aside-tag">
-        <h4 class="title">
-          <i class="iconfont icon-tag"></i>
-          标签云
-        </h4>
-        <ul v-if="tags.length" class="aside-tag-list">
-          <li v-for="tag in tags" :key="tag._id" class="item">
-            <nuxt-link
-              :to="{
-                name: 'tag-tag_slug',
-                params: { tag_slug: tag.slug, title: tag.name },
-              }"
-              class="title"
-            >
-              <i class="iconfont" :class="tag.icon"></i>
-              <span class="name">
-                <span>{{ tag.name }} </span>
-                <span>({{ tag.count || 0 }})</span>
-              </span>
-            </nuxt-link>
-          </li>
-        </ul>
-        <empty-box v-else></empty-box>
-      </div>
+      <h4 class="title">
+        <i class="iconfont icon-tag"></i>
+        标签云
+      </h4>
+      <ul v-if="tags.length" class="aside-tag-list">
+        <li v-for="tag in tags" :key="tag._id" class="item">
+          <nuxt-link
+            :to="{
+              name: 'tag-tag_slug',
+              params: { tag_slug: tag.slug, title: tag.name },
+            }"
+            class="title"
+          >
+            <i class="iconfont" :class="tag.icon"></i>
+            <span class="name">
+              <span>{{ tag.name }} </span>
+              <span>({{ tag.count || 0 }})</span>
+            </span>
+          </nuxt-link>
+        </li>
+      </ul>
+      <empty-box v-else></empty-box>
     </div>
   </aside>
 </template>
@@ -126,6 +125,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+aside {
+  margin: 0;
+}
 .sidebar-wrapper {
   position: sticky;
   top: 0;
@@ -266,6 +268,7 @@ export default {
 .aside-tag {
   width: 100%;
   padding-left: $gap;
+  margin-bottom: 0;
   > .title {
     height: 3em;
     line-height: 3em;
