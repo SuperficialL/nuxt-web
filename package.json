@@ -28,7 +28,7 @@
     "nuxt": "^2.13.0",
     "sass-loader": "^9.0.0",
     "swiper": "^5.4.5",
-    "ua-parser-js": "^0.7.21",
+    "ua-parser-js": "^0.7.24",
     "vue-awesome-swiper": "^4.1.1"
   },
   "devDependencies": {
