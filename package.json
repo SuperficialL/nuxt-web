@@ -27,7 +27,7 @@
     "node-sass": "^4.14.1",
     "nuxt": "^2.13.0",
     "sass-loader": "^9.0.0",
-    "swiper": "^5.4.5",
+    "swiper": "^6.5.1",
     "ua-parser-js": "^0.7.21",
     "vue-awesome-swiper": "^4.1.1"
   },
